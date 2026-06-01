@@ -6,7 +6,13 @@
       "name": "Monday",
       "abbr": "MON",
       "color": "#2980b9",
-      "events": []
+      "events": [
+        {
+          "time": "",
+          "name": "asdf",
+          "detail": "asdf"
+        }
+      ]
     },
     {
       "name": "Tuesday",
@@ -35,17 +41,22 @@
   ],
   "weather": {
     "condition": "",
-    "icon": "☀️",
+    "icon": "âï¸",
     "high": "",
     "low": "",
     "wind": "",
     "precip": ""
   },
-  "workOrders": [],
+  "workOrders": [
+    {
+      "num": "asdfg",
+      "desc": "1234"
+    }
+  ],
   "lunch": {
-    "available": false,
-    "what": "",
-    "location": "",
+    "available": true,
+    "what": "es",
+    "location": "Breakroom",
     "until": ""
   },
   "alerts": []
