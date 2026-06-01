@@ -1,0 +1,52 @@
+{
+  "weekOf": "",
+  "showTimeSlide": false,
+  "days": [
+    {
+      "name": "Monday",
+      "abbr": "MON",
+      "color": "#2980b9",
+      "events": []
+    },
+    {
+      "name": "Tuesday",
+      "abbr": "TUE",
+      "color": "#1a7a40",
+      "events": []
+    },
+    {
+      "name": "Wednesday",
+      "abbr": "WED",
+      "color": "#6b2fa0",
+      "events": []
+    },
+    {
+      "name": "Thursday",
+      "abbr": "THU",
+      "color": "#c25e00",
+      "events": []
+    },
+    {
+      "name": "Friday",
+      "abbr": "FRI",
+      "color": "#c0392b",
+      "events": []
+    }
+  ],
+  "weather": {
+    "condition": "",
+    "icon": "☀️",
+    "high": "",
+    "low": "",
+    "wind": "",
+    "precip": ""
+  },
+  "workOrders": [],
+  "lunch": {
+    "available": false,
+    "what": "",
+    "location": "",
+    "until": ""
+  },
+  "alerts": []
+}
