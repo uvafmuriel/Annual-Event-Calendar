@@ -5,6 +5,8 @@ on:
     paths:
       - 'weekly-reports/*.xlsx'
   workflow_dispatch:
+  repository_dispatch:
+    types: [weekly-report-received]
 
 jobs:
   parse-and-update:
