@@ -1,0 +1,24 @@
+name: Parse Weekly XLSX Reports
+"on":
+  push:
+    paths:
+      - 'weekly-reports/*.xlsx'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [weekly-report-received]
+  schedule:
+    - cron: '0 18 * * 5'
+jobs:
+  parse-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install openpyxl
+      - name: Parse and push to Airtable
+        env:
+          AIRTABLE_TOKEN: ${{ secrets.AIRTABLE_TOKEN }}
+          AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
+        run: python parse_reports.py
