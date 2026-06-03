@@ -1,0 +1,34 @@
+name: Parse Weekly XLSX Reports
+
+on:
+  push:
+    paths:
+      - 'weekly-reports/*.xlsx'
+  workflow_dispatch:
+
+jobs:
+  parse-and-update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install openpyxl
+
+      - name: Parse XLSX files and update board data
+        run: python parse_reports.py
+
+      - name: Commit updated board data
+        run: |
+          git config user.name "CGZ Board Bot"
+          git config user.email "bot@cgz-board"
+          git add cgz-data.json
+          git diff --cached --quiet || git commit -m "Auto-update board data from weekly reports $(date +'%Y-%m-%d')"
+          git push
