@@ -407,8 +407,10 @@ function buildMonthSlide(leftId, rightId, titleId, mon, label, badgeColor) {
 function buildMonths() {
   const ci = new Date().getMonth();
   const ni = (ci+1)%12;
-  buildMonthSlide('curmon-left','curmon-right','curmon-title', MONTHS[ci], 'This Month', '#e57200');
-  buildMonthSlide('nxtmon-left','nxtmon-right','nxtmon-title', MONTHS[ni], 'Up Next',    '#1a2e56');
+  // Use months from GitHub data if available, otherwise fall back to hardcoded
+  const monthSrc = (DATA && DATA.months && DATA.months.length === 12) ? DATA.months : MONTHS;
+  buildMonthSlide('curmon-left','curmon-right','curmon-title', monthSrc[ci], 'This Month', '#e57200');
+  buildMonthSlide('nxtmon-left','nxtmon-right','nxtmon-title', monthSrc[ni], 'Up Next',    '#1a2e56');
 }
 
 function buildTimeRows() {
