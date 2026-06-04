@@ -55,29 +55,33 @@ html,body{width:100%;height:100%;background:#111;font-family:'Barlow',sans-serif
 .wk-none{font-size:13px;color:rgba(0,0,0,.3);font-style:italic;padding:8px}
 
 /* ── ANNOUNCEMENTS SLIDE ── */
-.wx-card{background:#e3f0fb;border:1px solid #90c4e8;border-radius:10px;padding:18px 24px;display:flex;align-items:center;gap:20px;flex-shrink:0}
-.wx-ico{font-size:56px;line-height:1}
-.wx-info{flex:1}
-.wx-cond{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--dktext)}
-.wx-det{font-size:14px;color:var(--mid);margin-top:3px}
-.wx-upd{font-size:11px;color:#90b0c8;margin-top:2px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px}
-.wx-temps{display:flex;gap:10px}
-.wx-tb{background:var(--white);border-radius:8px;padding:12px 18px;text-align:center;min-width:95px}
-.wx-tl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;color:var(--mid);text-transform:uppercase;margin-bottom:3px}
-.wx-tv{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:var(--dktext);line-height:1}
-.wx-tu{font-size:16px;color:var(--mid)}
-.ann-body{flex:1;display:flex;flex-direction:column;gap:14px}
-.ann-cols{display:flex;gap:14px;flex:1;overflow:hidden}
-.ann-col{flex:1;display:flex;flex-direction:column;gap:10px;overflow:hidden}
-.ann-card{border-radius:10px;padding:14px 18px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;flex:1}
+.ann-left{width:580px;flex-shrink:0;display:flex;flex-direction:column;gap:10px}
+.ann-right{flex:1;display:flex;flex-direction:column;gap:10px}
+.wx-card{background:#e3f0fb;border:1px solid #90c4e8;border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:14px;flex-shrink:0}
+.wx-ico{font-size:38px;line-height:1;flex-shrink:0}
+.wx-info{flex:1;min-width:0}
+.wx-cond{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--dktext)}
+.wx-det{font-size:12px;color:var(--mid);margin-top:2px}
+.wx-upd{font-size:10px;color:#90b0c8;margin-top:1px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px}
+.wx-temps{display:flex;gap:8px;flex-shrink:0}
+.wx-tb{background:var(--white);border-radius:6px;padding:8px 12px;text-align:center;min-width:72px}
+.wx-tl{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--mid);text-transform:uppercase;margin-bottom:2px}
+.wx-tv{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--dktext);line-height:1}
+.wx-tu{font-size:13px;color:var(--mid)}
+.ann-card{border-radius:10px;padding:10px 14px;display:flex;flex-direction:column;gap:4px;position:relative;overflow:hidden;flex:1}
 .ann-bar{position:absolute;left:0;top:0;bottom:0;width:4px}
-.ann-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding-left:12px}
-.ann-content{padding-left:12px;display:flex;flex-direction:column;gap:5px;flex:1}
-.ann-item{font-size:15px;color:var(--dktext);line-height:1.4}
-.ann-none{font-size:13px;color:rgba(0,0,0,.28);font-style:italic}
+.ann-lbl{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding-left:11px}
+.ann-content{padding-left:11px;display:flex;flex-direction:column;gap:4px;flex:1}
+.ann-item{font-size:13px;color:var(--dktext);line-height:1.4}
+.ann-none{font-size:12px;color:rgba(0,0,0,.28);font-style:italic}
 .wo-card{background:#e4f5ec;border:1px solid #90c8a8}.wo-card .ann-bar{background:var(--green)}.wo-card .ann-lbl{color:var(--green)}
 .lunch-card{background:#f2ebf9;border:1px solid #c090e0}.lunch-card .ann-bar{background:var(--purp)}.lunch-card .ann-lbl{color:var(--purp)}
-.alert-card{background:#fdecea;border:1px solid #e8a09a;flex:1}.alert-card .ann-bar{background:var(--red)}.alert-card .ann-lbl{color:var(--red)}
+.alert-card{background:#fdecea;border:1px solid #e8a09a}.alert-card .ann-bar{background:var(--red)}.alert-card .ann-lbl{color:var(--red)}
+.gen-card{background:var(--white);border:1px solid #d8dde6;border-radius:10px;flex:1;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07)}
+.gen-hdr{background:var(--navy2);padding:14px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.gen-hdr-icon{font-size:18px}
+.gen-hdr-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:3px;color:var(--white);text-transform:uppercase}
+.gen-body{flex:1;padding:20px;font-size:22px;color:var(--dktext);line-height:1.7;overflow:hidden;white-space:pre-wrap}
 
 /* ── MONTH SLIDES ── */
 .mon-slide{background:var(--lgray)}
@@ -132,7 +136,7 @@ html,body{width:100%;height:100%;background:#111;font-family:'Barlow',sans-serif
       <div class="tb-left"><span class="tb-logo">CGZ Maintenance</span><div class="tb-div"></div><span class="tb-title">Announcements</span></div>
       <div class="tb-right"><div style="text-align:right"><div class="tb-clock" id="clk-a"></div><div class="tb-date" id="dt-a"></div></div></div>
     </div>
-    <div class="slide-body" style="flex-direction:column;gap:14px" id="ann-body"></div>
+    <div class="slide-body" style="gap:16px" id="ann-body"></div>
   </div>
 
   <!-- SLIDE 3: THIS MONTH -->
@@ -354,20 +358,23 @@ function buildAnnouncements() {
   const wos = DATA.workOrders || [];
   const lunch = DATA.lunch || {};
   const alerts = DATA.alerts || [];
+  const genAnn = DATA.generalAnnouncements || '';
   const woHTML = wos.length ? wos.map(w=>`<div class="ann-item"><strong>#${esc(w.num||'—')}</strong> — ${esc(w.desc||'')}</div>`).join('') : '<div class="ann-none">No active work orders</div>';
   const lunchHTML = lunch.available
     ? `<div class="ann-item"><strong>What:</strong> ${esc(lunch.what||'—')}</div><div class="ann-item"><strong>Where:</strong> ${esc(lunch.location||'—')}</div><div class="ann-item"><strong>Until:</strong> ${esc(lunch.until||'—')}</div>`
     : '<div class="ann-none">No leftover lunch today</div>';
-  const alertHTML = alerts.length ? alerts.map(a=>`<div class="ann-item">⚠ ${esc(a)}</div>`).join('') : '<div class="ann-none">No active construction alerts</div>';
+  const alertHTML = alerts.length ? alerts.map(a=>`<div class="ann-item">⚠ ${esc(a)}</div>`).join('') : '<div class="ann-none">No active alerts</div>';
   document.getElementById('ann-body').innerHTML = `
-    <div class="wx-card"><div id="wx-live" style="display:contents"><div class="wx-ico">🌡</div><div class="wx-info"><div class="wx-cond">Loading weather…</div></div></div></div>
-    <div class="ann-cols">
-      <div class="ann-col">
-        <div class="ann-card wo-card"><div class="ann-bar"></div><div class="ann-lbl">🔧 Project Work Orders</div><div class="ann-content">${woHTML}</div></div>
-        <div class="ann-card lunch-card"><div class="ann-bar"></div><div class="ann-lbl">🍕 Leftover Lunch</div><div class="ann-content">${lunchHTML}</div></div>
-      </div>
-      <div class="ann-col">
-        <div class="ann-card alert-card"><div class="ann-bar"></div><div class="ann-lbl">🚧 Construction Alerts</div><div class="ann-content">${alertHTML}</div></div>
+    <div class="ann-left">
+      <div class="wx-card"><div id="wx-live" style="display:contents"><div class="wx-ico">🌡</div><div class="wx-info"><div class="wx-cond">Loading weather…</div></div></div></div>
+      <div class="ann-card wo-card"><div class="ann-bar"></div><div class="ann-lbl">🔧 Project Work Orders</div><div class="ann-content">${woHTML}</div></div>
+      <div class="ann-card lunch-card"><div class="ann-bar"></div><div class="ann-lbl">🍕 Leftover Lunch</div><div class="ann-content">${lunchHTML}</div></div>
+      <div class="ann-card alert-card"><div class="ann-bar"></div><div class="ann-lbl">🚧 Construction Alerts</div><div class="ann-content">${alertHTML}</div></div>
+    </div>
+    <div class="ann-right">
+      <div class="gen-card">
+        <div class="gen-hdr"><span class="gen-hdr-icon">📢</span><span class="gen-hdr-title">General Announcements</span></div>
+        <div class="gen-body">${esc(genAnn) || '<span style="color:rgba(0,0,0,.25);font-style:italic">No announcements today</span>'}</div>
       </div>
     </div>`;
   renderWeather();
@@ -445,7 +452,7 @@ function tick() {
 // ══════════════════════════════════════════
 function getSlideList() {
   const day = new Date().getDay();
-  const showTime = DATA && (DATA.showTimeSlide || day===4 || day===5);
+  const showTime = day===4 || day===5 || (DATA && DATA.showTimeSlide);
   return Array.from(document.querySelectorAll('#stage .slide'))
     .filter(s => showTime || s.id !== 's-time');
 }
