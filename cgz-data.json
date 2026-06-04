@@ -7,14 +7,17 @@
       "desc": "Rotunda West Courtyard Project# 3951719-93700"
     }
   ],
-  "alerts": [],
+  "alerts": [
+    "[6/9, 6/16, 6/23, 6/29] Monroe Hill Parking Lot (C5) Impact. Extremely limited parking ",
+    "[Until 8/15]  Installation of a laydown area in the lawn between the Rotunda and University Chapel"
+  ],
   "lunch": {
     "available": false,
     "what": "",
     "location": "",
     "until": ""
   },
-  "generalAnnouncements": "",
+  "generalAnnouncements": "Alumni Weekend - One more volunteer needed\n\nVault Cleanout Monday, 6/9",
   "months": [
     {
       "idx": 0,
@@ -30,7 +33,7 @@
         {
           "name": "Declaration Under the Dome",
           "cat": "special",
-          "detail": "Dome Room \u2014 setup, A/V staging"
+          "detail": "Dome Room — setup, A/V staging"
         }
       ]
     },
@@ -43,13 +46,13 @@
         {
           "name": "Declaration Under the Dome",
           "cat": "special",
-          "detail": "Dome Room \u2014 chairs, stage, A/V",
+          "detail": "Dome Room — chairs, stage, A/V",
           "badge": "DOME"
         },
         {
           "name": "Speaker Visit",
           "cat": "special",
-          "detail": "Rotunda \u2014 stage & seating setup"
+          "detail": "Rotunda — stage & seating setup"
         }
       ]
     },
@@ -62,27 +65,27 @@
         {
           "name": "Battle of the Bands",
           "cat": "spring",
-          "detail": "Amphitheater \u2014 power, tables, water"
+          "detail": "Amphitheater — power, tables, water"
         },
         {
           "name": "Spring Kickoff Show",
           "cat": "spring",
-          "detail": "Amphitheater \u2014 tables, power, waste"
+          "detail": "Amphitheater — tables, power, waste"
         },
         {
           "name": "TSA Night Market",
           "cat": "spring",
-          "detail": "Amphitheater \u2014 waste, water stations"
+          "detail": "Amphitheater — waste, water stations"
         },
         {
           "name": "UPC Movie Screening",
           "cat": "spring",
-          "detail": "Amphitheater / OCH \u2014 tables, power"
+          "detail": "Amphitheater / OCH — tables, power"
         },
         {
           "name": "Black Alumni Weekend",
           "cat": "alumni",
-          "detail": "Amphitheater \u2014 stage, power, custodial",
+          "detail": "Amphitheater — stage, power, custodial",
           "badge": "PLAN"
         },
         {
@@ -96,7 +99,7 @@
     {
       "idx": 3,
       "name": "April",
-      "tagline": "Peak spring \u2014 Finals lead-up & major events",
+      "tagline": "Peak spring — Finals lead-up & major events",
       "accent": "#c0392b",
       "events": [
         {
@@ -108,47 +111,47 @@
         {
           "name": "Black Alumni Weekend",
           "cat": "alumni",
-          "detail": "Amphitheater \u2014 stage, chairs, power",
+          "detail": "Amphitheater — stage, chairs, power",
           "badge": "MAJOR"
         },
         {
           "name": "First Year Formal",
           "cat": "spring",
-          "detail": "Amphitheater \u2014 power, stage, waste"
+          "detail": "Amphitheater — power, stage, waste"
         },
         {
           "name": "Hoos Grateful",
           "cat": "spring",
-          "detail": "Amphitheater \u2014 water monster, chairs"
+          "detail": "Amphitheater — water monster, chairs"
         },
         {
           "name": "Gen Z Debate Event",
           "cat": "special",
-          "detail": "Rotunda \u2014 A/V, power, stanchions"
+          "detail": "Rotunda — A/V, power, stanchions"
         },
         {
           "name": "TSA Night Market",
           "cat": "spring",
-          "detail": "Amphitheater \u2014 waste, water"
+          "detail": "Amphitheater — waste, water"
         }
       ]
     },
     {
       "idx": 4,
       "name": "May",
-      "tagline": "Finals Weekend \u2014 peak operational demand",
+      "tagline": "Finals Weekend — peak operational demand",
       "accent": "#c0392b",
       "events": [
         {
           "name": "Graduation / Final Exercises",
           "cat": "grad",
-          "detail": "Tents, linens, power, A/V \u2014 100+ hrs/wk",
+          "detail": "Tents, linens, power, A/V — 100+ hrs/wk",
           "badge": "PEAK"
         },
         {
           "name": "Table & Chair Requests",
           "cat": "vigil",
-          "detail": "Multiple venues \u2014 Gibson, Wilson, Nau"
+          "detail": "Multiple venues — Gibson, Wilson, Nau"
         }
       ]
     },
@@ -161,13 +164,13 @@
         {
           "name": "Alumni Reunions Weekend",
           "cat": "alumni",
-          "detail": "All classes \u2014 Grounds-wide events, parking, custodial",
+          "detail": "All classes — Grounds-wide events, parking, custodial",
           "badge": "MAJOR"
         },
         {
           "name": "Ad-hoc Event Support",
           "cat": "vigil",
-          "detail": "Tables / chairs \u2014 Dome, Gardens, misc venues"
+          "detail": "Tables / chairs — Dome, Gardens, misc venues"
         }
       ]
     },
@@ -180,19 +183,19 @@
         {
           "name": "Fall Activities Fair (Prep)",
           "cat": "fall",
-          "detail": "Amphitheater \u2014 water monsters, power staging",
+          "detail": "Amphitheater — water monsters, power staging",
           "badge": "PREP"
         },
         {
           "name": "Arts Welcome Picnic (Prep)",
           "cat": "fall",
-          "detail": "Arts Grounds \u2014 waste, tables ordering",
+          "detail": "Arts Grounds — waste, tables ordering",
           "badge": "PREP"
         },
         {
           "name": "Rotunda Sing (Prep)",
           "cat": "fall",
-          "detail": "Lawn \u2014 stage, power, water monsters",
+          "detail": "Lawn — stage, power, water monsters",
           "badge": "PREP"
         }
       ]
@@ -206,30 +209,30 @@
         {
           "name": "First-Year Move-In",
           "cat": "fall",
-          "detail": "Aug 21-22 \u00b7 All first-year residence halls",
+          "detail": "Aug 21-22 · All first-year residence halls",
           "badge": "MAJOR"
         },
         {
           "name": "Opening Convocation",
           "cat": "fall",
-          "detail": "Aug 24 \u00b7 The Lawn \u2014 honor pledge & welcome",
+          "detail": "Aug 24 · The Lawn — honor pledge & welcome",
           "badge": "MAJOR"
         },
         {
           "name": "First Year Food Fest",
           "cat": "fall",
-          "detail": "Amphitheater \u2014 water, power, waste \u00b7 2,000+",
+          "detail": "Amphitheater — water, power, waste · 2,000+",
           "badge": "2000+"
         },
         {
           "name": "Fall Activities Fair",
           "cat": "fall",
-          "detail": "Amphitheater + Peabody \u2014 3 water monsters"
+          "detail": "Amphitheater + Peabody — 3 water monsters"
         },
         {
           "name": "Rotunda Sing",
           "cat": "fall",
-          "detail": "Lawn \u2014 stage, 3 water monsters, power, tables"
+          "detail": "Lawn — stage, 3 water monsters, power, tables"
         }
       ]
     },
@@ -242,18 +245,18 @@
         {
           "name": "Arts Welcome Picnic",
           "cat": "fall",
-          "detail": "Arts Grounds \u2014 waste, tables"
+          "detail": "Arts Grounds — waste, tables"
         },
         {
           "name": "Justice Jackson Visit",
           "cat": "special",
-          "detail": "OCH \u2014 power, custodial, stanchions",
+          "detail": "OCH — power, custodial, stanchions",
           "badge": "VIP"
         },
         {
           "name": "Nov. 13 Candlelight Vigil",
           "cat": "vigil",
-          "detail": "OCH \u2014 power, waste, custodial",
+          "detail": "OCH — power, waste, custodial",
           "badge": "MEMORIAL"
         }
       ]
@@ -267,23 +270,23 @@
         {
           "name": "4Y5K Community Care Race",
           "cat": "fall",
-          "detail": "Amphitheater \u2014 water monster, power"
+          "detail": "Amphitheater — water monster, power"
         },
         {
           "name": "UPC Movie Screening",
           "cat": "spring",
-          "detail": "Old Cabell Hall \u2014 tables & setup"
+          "detail": "Old Cabell Hall — tables & setup"
         },
         {
           "name": "Lighting of the Lawn (Prep)",
           "cat": "lotl",
-          "detail": "Lawn \u2014 ordering, lighting install begins",
+          "detail": "Lawn — ordering, lighting install begins",
           "badge": "PREP"
         },
         {
           "name": "CHS Orchestra Event",
           "cat": "special",
-          "detail": "Dome Room \u2014 open floor setup"
+          "detail": "Dome Room — open floor setup"
         }
       ]
     },
@@ -296,13 +299,13 @@
         {
           "name": "Lighting of the Lawn",
           "cat": "lotl",
-          "detail": "Lawn \u2014 electrical, roofing, custodial",
+          "detail": "Lawn — electrical, roofing, custodial",
           "badge": "MAJOR"
         },
         {
           "name": "4Y5K Community Care Race",
           "cat": "fall",
-          "detail": "Amphitheater \u2014 water monster support"
+          "detail": "Amphitheater — water monster support"
         },
         {
           "name": "Exam Prep",
@@ -326,12 +329,12 @@
         {
           "name": "Exam Period Setup",
           "cat": "vigil",
-          "detail": "Dome Room \u2014 round tables for exams"
+          "detail": "Dome Room — round tables for exams"
         },
         {
           "name": "German Market",
           "cat": "spring",
-          "detail": "Amphitheater \u2014 tables, chairs, power"
+          "detail": "Amphitheater — tables, chairs, power"
         }
       ]
     }
