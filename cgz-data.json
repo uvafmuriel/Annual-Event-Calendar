@@ -14,5 +14,326 @@
     "location": "",
     "until": ""
   },
-  "generalAnnouncements": ""
+  "generalAnnouncements": "",
+  "months": [
+    {
+      "idx": 0,
+      "name": "January",
+      "tagline": "Post-holiday prep & Lawn breakdown",
+      "accent": "#1464a0",
+      "events": [
+        {
+          "name": "Lighting of the Lawn",
+          "cat": "lotl",
+          "detail": "Ongoing support & teardown"
+        },
+        {
+          "name": "Declaration Under the Dome",
+          "cat": "special",
+          "detail": "Dome Room \u2014 setup, A/V staging"
+        }
+      ]
+    },
+    {
+      "idx": 1,
+      "name": "February",
+      "tagline": "Dome events & speaker visits",
+      "accent": "#c25e00",
+      "events": [
+        {
+          "name": "Declaration Under the Dome",
+          "cat": "special",
+          "detail": "Dome Room \u2014 chairs, stage, A/V",
+          "badge": "DOME"
+        },
+        {
+          "name": "Speaker Visit",
+          "cat": "special",
+          "detail": "Rotunda \u2014 stage & seating setup"
+        }
+      ]
+    },
+    {
+      "idx": 2,
+      "name": "March",
+      "tagline": "Amphitheater season opens",
+      "accent": "#6b2fa0",
+      "events": [
+        {
+          "name": "Battle of the Bands",
+          "cat": "spring",
+          "detail": "Amphitheater \u2014 power, tables, water"
+        },
+        {
+          "name": "Spring Kickoff Show",
+          "cat": "spring",
+          "detail": "Amphitheater \u2014 tables, power, waste"
+        },
+        {
+          "name": "TSA Night Market",
+          "cat": "spring",
+          "detail": "Amphitheater \u2014 waste, water stations"
+        },
+        {
+          "name": "UPC Movie Screening",
+          "cat": "spring",
+          "detail": "Amphitheater / OCH \u2014 tables, power"
+        },
+        {
+          "name": "Black Alumni Weekend",
+          "cat": "alumni",
+          "detail": "Amphitheater \u2014 stage, power, custodial",
+          "badge": "PLAN"
+        },
+        {
+          "name": "Grad Planning Begins",
+          "cat": "grad",
+          "detail": "Early work orders for May Finals",
+          "badge": "PLAN"
+        }
+      ]
+    },
+    {
+      "idx": 3,
+      "name": "April",
+      "tagline": "Peak spring \u2014 Finals lead-up & major events",
+      "accent": "#c0392b",
+      "events": [
+        {
+          "name": "Graduation / Final Exercises",
+          "cat": "grad",
+          "detail": "Amphitheater, Rotunda, Pavilions",
+          "badge": "MAJOR"
+        },
+        {
+          "name": "Black Alumni Weekend",
+          "cat": "alumni",
+          "detail": "Amphitheater \u2014 stage, chairs, power",
+          "badge": "MAJOR"
+        },
+        {
+          "name": "First Year Formal",
+          "cat": "spring",
+          "detail": "Amphitheater \u2014 power, stage, waste"
+        },
+        {
+          "name": "Hoos Grateful",
+          "cat": "spring",
+          "detail": "Amphitheater \u2014 water monster, chairs"
+        },
+        {
+          "name": "Gen Z Debate Event",
+          "cat": "special",
+          "detail": "Rotunda \u2014 A/V, power, stanchions"
+        },
+        {
+          "name": "TSA Night Market",
+          "cat": "spring",
+          "detail": "Amphitheater \u2014 waste, water"
+        }
+      ]
+    },
+    {
+      "idx": 4,
+      "name": "May",
+      "tagline": "Finals Weekend \u2014 peak operational demand",
+      "accent": "#c0392b",
+      "events": [
+        {
+          "name": "Graduation / Final Exercises",
+          "cat": "grad",
+          "detail": "Tents, linens, power, A/V \u2014 100+ hrs/wk",
+          "badge": "PEAK"
+        },
+        {
+          "name": "Table & Chair Requests",
+          "cat": "vigil",
+          "detail": "Multiple venues \u2014 Gibson, Wilson, Nau"
+        }
+      ]
+    },
+    {
+      "idx": 5,
+      "name": "June",
+      "tagline": "Alumni Reunions Weekend & summer support",
+      "accent": "#9a6c00",
+      "events": [
+        {
+          "name": "Alumni Reunions Weekend",
+          "cat": "alumni",
+          "detail": "All classes \u2014 Grounds-wide events, parking, custodial",
+          "badge": "MAJOR"
+        },
+        {
+          "name": "Ad-hoc Event Support",
+          "cat": "vigil",
+          "detail": "Tables / chairs \u2014 Dome, Gardens, misc venues"
+        }
+      ]
+    },
+    {
+      "idx": 6,
+      "name": "July",
+      "tagline": "Fall semester prep begins",
+      "accent": "#1a7a40",
+      "events": [
+        {
+          "name": "Fall Activities Fair (Prep)",
+          "cat": "fall",
+          "detail": "Amphitheater \u2014 water monsters, power staging",
+          "badge": "PREP"
+        },
+        {
+          "name": "Arts Welcome Picnic (Prep)",
+          "cat": "fall",
+          "detail": "Arts Grounds \u2014 waste, tables ordering",
+          "badge": "PREP"
+        },
+        {
+          "name": "Rotunda Sing (Prep)",
+          "cat": "fall",
+          "detail": "Lawn \u2014 stage, power, water monsters",
+          "badge": "PREP"
+        }
+      ]
+    },
+    {
+      "idx": 7,
+      "name": "August",
+      "tagline": "Move-In, Opening Convocation & Fall Welcome",
+      "accent": "#1a7a40",
+      "events": [
+        {
+          "name": "First-Year Move-In",
+          "cat": "fall",
+          "detail": "Aug 21-22 \u00b7 All first-year residence halls",
+          "badge": "MAJOR"
+        },
+        {
+          "name": "Opening Convocation",
+          "cat": "fall",
+          "detail": "Aug 24 \u00b7 The Lawn \u2014 honor pledge & welcome",
+          "badge": "MAJOR"
+        },
+        {
+          "name": "First Year Food Fest",
+          "cat": "fall",
+          "detail": "Amphitheater \u2014 water, power, waste \u00b7 2,000+",
+          "badge": "2000+"
+        },
+        {
+          "name": "Fall Activities Fair",
+          "cat": "fall",
+          "detail": "Amphitheater + Peabody \u2014 3 water monsters"
+        },
+        {
+          "name": "Rotunda Sing",
+          "cat": "fall",
+          "detail": "Lawn \u2014 stage, 3 water monsters, power, tables"
+        }
+      ]
+    },
+    {
+      "idx": 8,
+      "name": "September",
+      "tagline": "Community events & special visits",
+      "accent": "#1a7a40",
+      "events": [
+        {
+          "name": "Arts Welcome Picnic",
+          "cat": "fall",
+          "detail": "Arts Grounds \u2014 waste, tables"
+        },
+        {
+          "name": "Justice Jackson Visit",
+          "cat": "special",
+          "detail": "OCH \u2014 power, custodial, stanchions",
+          "badge": "VIP"
+        },
+        {
+          "name": "Nov. 13 Candlelight Vigil",
+          "cat": "vigil",
+          "detail": "OCH \u2014 power, waste, custodial",
+          "badge": "MEMORIAL"
+        }
+      ]
+    },
+    {
+      "idx": 9,
+      "name": "October",
+      "tagline": "Homecomings, races & LOTL prep",
+      "accent": "#1464a0",
+      "events": [
+        {
+          "name": "4Y5K Community Care Race",
+          "cat": "fall",
+          "detail": "Amphitheater \u2014 water monster, power"
+        },
+        {
+          "name": "UPC Movie Screening",
+          "cat": "spring",
+          "detail": "Old Cabell Hall \u2014 tables & setup"
+        },
+        {
+          "name": "Lighting of the Lawn (Prep)",
+          "cat": "lotl",
+          "detail": "Lawn \u2014 ordering, lighting install begins",
+          "badge": "PREP"
+        },
+        {
+          "name": "CHS Orchestra Event",
+          "cat": "special",
+          "detail": "Dome Room \u2014 open floor setup"
+        }
+      ]
+    },
+    {
+      "idx": 10,
+      "name": "November",
+      "tagline": "Lighting of the Lawn season",
+      "accent": "#1464a0",
+      "events": [
+        {
+          "name": "Lighting of the Lawn",
+          "cat": "lotl",
+          "detail": "Lawn \u2014 electrical, roofing, custodial",
+          "badge": "MAJOR"
+        },
+        {
+          "name": "4Y5K Community Care Race",
+          "cat": "fall",
+          "detail": "Amphitheater \u2014 water monster support"
+        },
+        {
+          "name": "Exam Prep",
+          "cat": "vigil",
+          "detail": "Dome Room reconfigurations for exam period"
+        }
+      ]
+    },
+    {
+      "idx": 11,
+      "name": "December",
+      "tagline": "LOTL peak & exam season",
+      "accent": "#1464a0",
+      "events": [
+        {
+          "name": "Lighting of the Lawn",
+          "cat": "lotl",
+          "detail": "Continued support & final teardown",
+          "badge": "ONGOING"
+        },
+        {
+          "name": "Exam Period Setup",
+          "cat": "vigil",
+          "detail": "Dome Room \u2014 round tables for exams"
+        },
+        {
+          "name": "German Market",
+          "cat": "spring",
+          "detail": "Amphitheater \u2014 tables, chairs, power"
+        }
+      ]
+    }
+  ]
 }
