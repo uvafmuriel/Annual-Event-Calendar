@@ -1,10 +1,10 @@
 {
-  "weekOf": "June 1 - June 6, 2026",
+  "weekOf": "June 1 - June 5, 2026",
   "showTimeSlide": false,
   "workOrders": [
     {
-      "num": "Rotunda West Courtyard Project",
-      "desc": "3951719-93700"
+      "num": "",
+      "desc": "Rotunda West Courtyard Project# 3951719-93700"
     }
   ],
   "alerts": [],
@@ -13,5 +13,6 @@
     "what": "",
     "location": "",
     "until": ""
-  }
+  },
+  "generalAnnouncements": ""
 }
