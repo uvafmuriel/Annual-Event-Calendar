@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CGZ Board Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1d3a;--navy2:#1a2e56;--orange:#e57200;--ora2:#f4a444;
+  --white:#fff;--lgray:#f0f3f8;--mgray:#c8d0dc;--dktext:#1a2744;--mid:#4a6070;
+  --green:#1a7a40;--red:#c0392b;--purp:#6b2fa0;--r:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Barlow',sans-serif;background:var(--lgray);color:var(--dktext);min-height:100vh;padding-bottom:80px}
+.hdr{background:var(--navy);border-bottom:3px solid var(--orange);padding:16px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.hl{display:flex;align-items:center;gap:13px}
+.h-logo{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;color:var(--ora2)}
+.h-div{width:1px;height:20px;background:rgba(255,255,255,.2)}
+.h-title{font-family:'Playfair Display',serif;font-size:19px;color:var(--white)}
+.hr-btns{display:flex;gap:10px;align-items:center}
+.btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.25);color:var(--mgray);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;padding:8px 16px;border-radius:6px;cursor:pointer;text-decoration:none;text-transform:uppercase}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange)}
+.btn-save{background:var(--orange);border:none;color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;padding:10px 26px;border-radius:6px;cursor:pointer;text-transform:uppercase;transition:background .2s}
+.btn-save:hover{background:#c96500}
+.btn-save:disabled{background:#888;cursor:not-allowed}
+.toast{font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:2px;padding:6px 14px;border-radius:5px;opacity:0;transition:opacity .3s}
+.toast.ok{color:#5cb85c;background:rgba(92,184,92,.12);border:1px solid rgba(92,184,92,.3)}
+.toast.err{color:var(--red);background:rgba(192,57,43,.1);border:1px solid rgba(192,57,43,.25)}
+.page{max-width:1080px;margin:0 auto;padding:28px 24px}
+.sec{background:var(--white);border-radius:var(--r);box-shadow:0 1px 4px rgba(0,0,0,.07);margin-bottom:20px;overflow:hidden}
+.sec-hdr{background:var(--navy2);padding:13px 22px;display:flex;align-items:center;gap:10px}
+.sec-icon{font-size:17px}
+.sec-title{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;color:var(--white);text-transform:uppercase}
+.sec-body{padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--mid);text-transform:uppercase;display:block;margin-bottom:4px}
+input[type=text],input[type=password],input[type=number],textarea{width:100%;border:1.5px solid #d8dde6;border-radius:6px;padding:9px 13px;font-size:15px;font-family:'Barlow',sans-serif;color:var(--dktext);background:var(--white);outline:none;transition:border .2s}
+input:focus,textarea:focus{border-color:var(--orange)}
+textarea{resize:vertical;min-height:80px;line-height:1.5}
+.frow{display:grid;gap:14px}
+.c2{grid-template-columns:1fr 1fr}
+.c3{grid-template-columns:1fr 1fr 1fr}
+.tog-row{display:flex;align-items:center;gap:10px}
+.tog{position:relative;display:inline-block;width:44px;height:24px;flex-shrink:0}
+.tog input{opacity:0;width:0;height:0}
+.tog-sl{position:absolute;inset:0;background:#d0d8e0;border-radius:12px;cursor:pointer;transition:background .2s}
+.tog-sl:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:white;border-radius:50%;transition:transform .2s}
+.tog input:checked+.tog-sl{background:var(--orange)}
+.tog input:checked+.tog-sl:before{transform:translateX(20px)}
+.tog-lbl{font-size:14px;color:var(--dktext)}
+.gh-status{font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:2px;padding:5px 12px;border-radius:5px;display:inline-block}
+.gh-ok{color:#3a8a50;background:#e4f5ec;border:1px solid #90c8a8}
+.gh-err{color:var(--red);background:#fdecea;border:1px solid #e8a09a}
+.gh-none{color:var(--mid);background:var(--lgray);border:1px solid #d0d8e0}
+.btn-sm{background:var(--navy2);border:none;color:var(--white);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;padding:8px 16px;border-radius:6px;cursor:pointer;text-transform:uppercase}
+.btn-sm:hover{background:var(--navy)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hl">
+    <span class="h-logo">CGZ Maintenance</span>
+    <div class="h-div"></div>
+    <span class="h-title">Board Admin</span>
+  </div>
+  <div class="hr-btns">
+    <span class="toast" id="toast"></span>
+    <a href="CGZ_Display.html" target="_blank" class="btn-ghost">Open Display ↗</a>
+    <button class="btn-save" id="save-btn" onclick="saveAll()">Save to Board</button>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- GITHUB CONNECTION -->
+  <div class="sec">
+    <div class="sec-hdr"><span class="sec-icon">🔗</span><span class="sec-title">GitHub Connection</span></div>
+    <div class="sec-body">
+      <div class="frow c3">
+        <div><label>GitHub Username</label><input type="text" id="gh-owner" placeholder="uvafmuriel"></div>
+        <div><label>Repository Name</label><input type="text" id="gh-repo" placeholder="Annual-Event-Calendar"></div>
+        <div><label>Personal Access Token</label><input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx"></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="btn-sm" onclick="saveCfg()">Save Connection</button>
+        <button class="btn-sm" onclick="testCfg()">Test Connection</button>
+        <span id="gh-status" class="gh-status gh-none">Not configured</span>
+      </div>
+      <div style="font-size:12px;color:var(--mid);line-height:1.7">
+        Token needs <strong>repo</strong> scope only. &nbsp;
+        <a href="https://github.com/settings/tokens/new?scopes=repo&description=CGZ+Board+Admin" target="_blank" style="color:var(--orange)">Create token on GitHub ↗</a><br>
+        Stored only in this browser — never sent anywhere except directly to GitHub.
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK -->
+  <div class="sec">
+    <div class="sec-hdr"><span class="sec-icon">📅</span><span class="sec-title">Week Info</span></div>
+    <div class="sec-body">
+      <div class="frow c2">
+        <div><label>Week of (shown on board)</label><input type="text" id="weekOf" placeholder="e.g. June 2 – 6, 2025"></div>
+        <div style="display:flex;align-items:flex-end;padding-bottom:2px">
+          <div class="tog-row">
+            <label class="tog"><input type="checkbox" id="showTime"><span class="tog-sl"></span></label>
+            <span class="tog-lbl">Force time slide on (auto-shows Thu &amp; Fri)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEATHER -->
+  <div class="sec" style="border:1.5px solid #90c4e8">
+    <div class="sec-hdr" style="background:#1464a0"><span class="sec-icon">🌤</span><span class="sec-title">Weather — Live &amp; Automatic</span></div>
+    <div class="sec-body" style="background:#e3f0fb">
+      <div style="font-size:15px;color:#1a2744;line-height:1.8">
+        <strong>No action needed.</strong> The display pulls live weather for <strong>Charlottesville, VA</strong> from Open-Meteo automatically every 30 minutes.
+      </div>
+    </div>
+  </div>
+
+  <!-- GENERAL ANNOUNCEMENTS -->
+  <div class="sec">
+    <div class="sec-hdr"><span class="sec-icon">📢</span><span class="sec-title">General Announcements</span></div>
+    <div class="sec-body">
+      <div style="font-size:13px;color:var(--mid);margin-bottom:4px">Displayed in the large right panel on the Announcements slide. Use for anything you want the whole team to see.</div>
+      <textarea id="generalAnn" placeholder="e.g. Staff meeting Friday at 2pm in the break room&#10;New parking policy in effect starting Monday&#10;Welcome to the new summer staff!" style="min-height:160px;font-size:16px"></textarea>
+    </div>
+  </div>
+
+  <!-- WORK ORDERS -->
+  <div class="sec">
+    <div class="sec-hdr"><span class="sec-icon">🔧</span><span class="sec-title">Project Work Orders</span></div>
+    <div class="sec-body">
+      <div style="font-size:13px;color:var(--mid);margin-bottom:4px">One per line — format: <code>WO#: Description</code> &nbsp;e.g. <code>12345: Replace bollards near Rotunda</code></div>
+      <textarea id="workOrders" placeholder="12345: Replace bollards near Rotunda&#10;12346: Power wash garden paths"></textarea>
+    </div>
+  </div>
+
+  <!-- LUNCH -->
+  <div class="sec">
+    <div class="sec-hdr"><span class="sec-icon">🍕</span><span class="sec-title">Leftover Lunch</span></div>
+    <div class="sec-body">
+      <div class="tog-row"><label class="tog"><input type="checkbox" id="lunch-on" onchange="toggleLunch()"><span class="tog-sl"></span></label><span class="tog-lbl">Leftover lunch available today</span></div>
+      <div id="lunch-fields" style="display:none">
+        <div class="frow c2" style="margin-top:8px">
+          <div><label>What's available</label><input type="text" id="lunch-what" placeholder="Pizza, salad…"></div>
+          <div><label>Location / Room</label><input type="text" id="lunch-loc" placeholder="Break room, 2nd floor"></div>
+        </div>
+        <div style="margin-top:8px"><label>Available until</label><input type="text" id="lunch-until" placeholder="2:00 PM" style="max-width:200px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALERTS -->
+  <div class="sec">
+    <div class="sec-hdr"><span class="sec-icon">🚧</span><span class="sec-title">Construction Alerts</span></div>
+    <div class="sec-body">
+      <div style="font-size:13px;color:var(--mid);margin-bottom:4px">One alert per line</div>
+      <textarea id="alerts" placeholder="Rotunda east entrance closed for concrete work&#10;Garden V path closed Mon–Wed"></textarea>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const CFG_KEY  = 'cgz_github_cfg';
+const DATA_KEY = 'cgz_board_cache';
+let cfg = null;
+
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+function ghHeaders() {
+  return {
+    'Content-Type': 'application/json',
+    'Accept': 'application/vnd.github.v3+json',
+    'Authorization': `token ${cfg.token}`
+  };
+}
+
+function ghUrl(path) {
+  return `https://api.github.com/repos/${cfg.owner}/${cfg.repo}/${path}`;
+}
+
+// ── GITHUB CONFIG ─────────────────────────────────────────────────────────────
+function saveCfg() {
+  cfg = {
+    owner: document.getElementById('gh-owner').value.trim(),
+    repo:  document.getElementById('gh-repo').value.trim(),
+    token: document.getElementById('gh-token').value.trim(),
+  };
+  if (!cfg.owner || !cfg.repo || !cfg.token) { alert('Fill in all three fields.'); return; }
+  lsSet(CFG_KEY, JSON.stringify(cfg));
+  setStatus('Saved — click Test to verify', 'gh-ok');
+}
+
+async function testCfg() {
+  if (!cfg) { setStatus('Save connection first', 'gh-err'); return; }
+  setStatus('Testing…', 'gh-none');
+  try {
+    const res = await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}`, { headers: ghHeaders() });
+    if (!res.ok) throw new Error(`${res.status}`);
+    setStatus('✓ Connected', 'gh-ok');
+  } catch(e) {
+    setStatus('✗ ' + e.message, 'gh-err');
+  }
+}
+
+function setStatus(msg, cls) {
+  const el = document.getElementById('gh-status');
+  el.textContent = msg;
+  el.className = 'gh-status ' + cls;
+}
+
+// ── LOAD CURRENT DATA FROM GITHUB ─────────────────────────────────────────────
+async function loadFromGithub() {
+  if (!cfg) return;
+  try {
+    const res = await fetch(ghUrl('contents/cgz-data.json'), { headers: ghHeaders() });
+    if (!res.ok) return;
+    const meta = await res.json();
+    const data = JSON.parse(atob(meta.content.replace(/\n/g,'')));
+    populateForm(data);
+    showToast('✓ Loaded current board data', 'ok');
+  } catch(e) {
+    showToast('Could not load data from GitHub', 'err');
+  }
+}
+
+function populateForm(data) {
+  document.getElementById('weekOf').value     = data.weekOf || '';
+  document.getElementById('showTime').checked = !!data.showTimeSlide;
+  document.getElementById('generalAnn').value = data.generalAnnouncements || '';
+  // Work orders — format back to text
+  const woText = (data.workOrders || []).map(w => w.num ? `${w.num}: ${w.desc}` : w.desc).join('\n');
+  document.getElementById('workOrders').value = woText;
+  document.getElementById('alerts').value     = (data.alerts || []).join('\n');
+  const l = data.lunch || {};
+  document.getElementById('lunch-on').checked = !!l.available;
+  document.getElementById('lunch-what').value = l.what || '';
+  document.getElementById('lunch-loc').value  = l.location || '';
+  document.getElementById('lunch-until').value= l.until || '';
+  toggleLunch();
+}
+
+// ── SAVE TO GITHUB ─────────────────────────────────────────────────────────────
+async function saveAll() {
+  if (!cfg || !cfg.token) {
+    alert('Set up your GitHub connection first.');
+    return;
+  }
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true; btn.textContent = 'Saving…';
+
+  try {
+    // Get existing file SHA and data (to preserve days/events from parser)
+    let sha = null;
+    let existingData = {};
+    try {
+      const res = await fetch(ghUrl('contents/cgz-data.json'), { headers: ghHeaders() });
+      if (res.ok) {
+        const meta = await res.json();
+        sha = meta.sha;
+        existingData = JSON.parse(atob(meta.content.replace(/\n/g,'')));
+      }
+    } catch(e) {}
+
+    // Parse work orders from text
+    const woLines = document.getElementById('workOrders').value.split('\n').filter(l => l.trim());
+    const workOrders = woLines.map(l => {
+      const m = l.match(/^([^:]+):\s*(.+)$/);
+      return m ? { num: m[1].trim(), desc: m[2].trim() } : { num: '', desc: l.trim() };
+    });
+
+    // Parse alerts
+    const alerts = document.getElementById('alerts').value.split('\n').filter(l => l.trim());
+
+    // Merge — preserve days (written by parser), update announcements
+    const newData = {
+      ...existingData,
+      weekOf:                document.getElementById('weekOf').value.trim() || existingData.weekOf || '—',
+      showTimeSlide:         document.getElementById('showTime').checked,
+      generalAnnouncements:  document.getElementById('generalAnn').value.trim(),
+      workOrders,
+      alerts,
+      lunch: {
+        available: document.getElementById('lunch-on').checked,
+        what:      document.getElementById('lunch-what').value.trim(),
+        location:  document.getElementById('lunch-loc').value.trim(),
+        until:     document.getElementById('lunch-until').value.trim(),
+      },
+    };
+
+    // Push to GitHub
+    const body = {
+      message: `Board update ${new Date().toISOString().slice(0,10)}`,
+      content: btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2)))),
+    };
+    if (sha) body.sha = sha;
+
+    const res = await fetch(ghUrl('contents/cgz-data.json'), {
+      method: 'PUT',
+      headers: ghHeaders(),
+      body: JSON.stringify(body)
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || res.status);
+    }
+
+    lsSet(DATA_KEY, JSON.stringify(newData));
+    showToast('✓ Saved — display updates within 5 min', 'ok');
+  } catch(e) {
+    showToast('✗ Save failed: ' + e.message, 'err');
+  }
+
+  btn.disabled = false; btn.textContent = 'Save to Board';
+}
+
+function toggleLunch() {
+  document.getElementById('lunch-fields').style.display = document.getElementById('lunch-on').checked ? 'block' : 'none';
+}
+
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'toast ' + type;
+  clearTimeout(t._t); t._t = setTimeout(() => t.className = 'toast', 4000);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+try { cfg = JSON.parse(lsGet(CFG_KEY)); } catch(e) {}
+if (cfg) {
+  document.getElementById('gh-owner').value = cfg.owner || '';
+  document.getElementById('gh-repo').value  = cfg.repo  || '';
+  document.getElementById('gh-token').value = cfg.token || '';
+  setStatus('Config loaded', 'gh-ok');
+  loadFromGithub();
+}
+</script>
+</body>
+</html>
