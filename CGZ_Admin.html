@@ -163,6 +163,31 @@ textarea{resize:vertical;min-height:80px;line-height:1.5}
     </div>
   </div>
 
+  <!-- RECURRING EVENTS -->
+  <div class="sec">
+    <div class="sec-hdr"><span class="sec-icon">📆</span><span class="sec-title">Recurring Monthly Events</span></div>
+    <div class="sec-body">
+      <div style="font-size:13px;color:var(--mid);margin-bottom:8px">These appear on the This Month and Up Next slides. Select a month to edit its events.</div>
+      <div style="margin-bottom:14px">
+        <label>Month</label>
+        <select id="month-select" onchange="loadMonthEditor()" style="max-width:220px">
+          <option value="0">January</option><option value="1">February</option>
+          <option value="2">March</option><option value="3">April</option>
+          <option value="4">May</option><option value="5">June</option>
+          <option value="6">July</option><option value="7">August</option>
+          <option value="8">September</option><option value="9">October</option>
+          <option value="10">November</option><option value="11">December</option>
+        </select>
+      </div>
+      <div>
+        <label>Month Tagline</label>
+        <input type="text" id="month-tagline" placeholder="e.g. Peak spring — Finals lead-up & major events">
+      </div>
+      <div id="month-events-list" style="display:flex;flex-direction:column;gap:10px;margin-top:4px"></div>
+      <button onclick="addMonthEvent()" style="margin-top:8px;background:none;border:1.5px dashed var(--mgray);color:var(--mid);border-radius:6px;padding:9px;cursor:pointer;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:700;letter-spacing:2px;text-transform:uppercase;width:100%">+ Add Event</button>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -230,11 +255,68 @@ async function loadFromGithub() {
   }
 }
 
+// ── MONTH EDITOR ─────────────────────────────────────────────────────────────
+const CAT_OPTIONS = ['grad','lotl','fall','spring','special','vigil','alumni'];
+const CAT_NAMES   = {grad:'Graduation',lotl:'Lighting of Lawn',fall:'Fall Welcome',spring:'Spring Events',special:'Special Event',vigil:'Memorial/Other',alumni:'Alumni'};
+let monthsData = null; // loaded from GitHub
+
+function loadMonthEditor() {
+  if (!monthsData) return;
+  const idx = parseInt(document.getElementById('month-select').value);
+  const mon = monthsData[idx];
+  document.getElementById('month-tagline').value = mon.tagline || '';
+  renderMonthEvents(idx);
+}
+
+function renderMonthEvents(idx) {
+  const mon = monthsData[idx];
+  const list = document.getElementById('month-events-list');
+  list.innerHTML = '';
+  (mon.events || []).forEach((ev, ei) => {
+    const row = document.createElement('div');
+    row.style.cssText = 'background:var(--lgray);border-radius:6px;padding:12px;border:1px solid #e0e5ee;display:flex;flex-direction:column;gap:8px';
+    row.innerHTML = `
+      <div style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end">
+        <div><label>Event Name</label><input type="text" value="${esc(ev.name||'')}" oninput="upMonthEv(${idx},${ei},'name',this.value)" placeholder="Event name"></div>
+        <div><label>Category</label><select onchange="upMonthEv(${idx},${ei},'cat',this.value)" style="width:100%;border:1.5px solid #d8dde6;border-radius:6px;padding:9px 13px;font-size:15px;font-family:'Barlow',sans-serif;color:var(--dktext);outline:none">
+          ${CAT_OPTIONS.map(c=>`<option value="${c}"${ev.cat===c?' selected':''}>${CAT_NAMES[c]}</option>`).join('')}
+        </select></div>
+        <button onclick="removeMonthEv(${idx},${ei})" style="background:none;border:1.5px solid #e0a0a0;color:var(--red);border-radius:6px;padding:8px 13px;cursor:pointer;font-size:12px;font-family:'Barlow Condensed',sans-serif;font-weight:700;white-space:nowrap;align-self:flex-end">Remove</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end">
+        <div><label>Detail / Location</label><input type="text" value="${esc(ev.detail||'')}" oninput="upMonthEv(${idx},${ei},'detail',this.value)" placeholder="e.g. Amphitheater — power, tables, water"></div>
+        <div><label>Badge (optional)</label><input type="text" value="${esc(ev.badge||'')}" oninput="upMonthEv(${idx},${ei},'badge',this.value)" placeholder="MAJOR" style="max-width:110px"></div>
+      </div>`;
+    list.appendChild(row);
+  });
+}
+
+function upMonthEv(idx, ei, field, val) {
+  if (monthsData[idx] && monthsData[idx].events[ei]) monthsData[idx].events[ei][field] = val;
+}
+
+function removeMonthEv(idx, ei) {
+  monthsData[idx].events.splice(ei, 1);
+  renderMonthEvents(idx);
+}
+
+function addMonthEvent() {
+  const idx = parseInt(document.getElementById('month-select').value);
+  monthsData[idx].events.push({name:'',cat:'special',detail:'',badge:''});
+  renderMonthEvents(idx);
+}
+
+function saveMonthTagline() {
+  const idx = parseInt(document.getElementById('month-select').value);
+  if (monthsData[idx]) monthsData[idx].tagline = document.getElementById('month-tagline').value.trim();
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
 function populateForm(data) {
   document.getElementById('weekOf').value     = data.weekOf || '';
   document.getElementById('showTime').checked = !!data.showTimeSlide;
   document.getElementById('generalAnn').value = data.generalAnnouncements || '';
-  // Work orders — format back to text
   const woText = (data.workOrders || []).map(w => w.num ? `${w.num}: ${w.desc}` : w.desc).join('\n');
   document.getElementById('workOrders').value = woText;
   document.getElementById('alerts').value     = (data.alerts || []).join('\n');
@@ -244,80 +326,45 @@ function populateForm(data) {
   document.getElementById('lunch-loc').value  = l.location || '';
   document.getElementById('lunch-until').value= l.until || '';
   toggleLunch();
+  // Load months data
+  if (data.months) {
+    monthsData = data.months;
+    loadMonthEditor();
+  }
 }
 
 // ── SAVE TO GITHUB ─────────────────────────────────────────────────────────────
 async function saveAll() {
-  if (!cfg || !cfg.token) {
-    alert('Set up your GitHub connection first.');
-    return;
-  }
+  if (!cfg || !cfg.token) { alert('Set up your GitHub connection first.'); return; }
+  // Save current month tagline before saving
+  saveMonthTagline();
   const btn = document.getElementById('save-btn');
   btn.disabled = true; btn.textContent = 'Saving…';
-
   try {
-    // Get existing file SHA and data (to preserve days/events from parser)
-    let sha = null;
-    let existingData = {};
+    let sha = null, existingData = {};
     try {
       const res = await fetch(ghUrl('contents/cgz-data.json'), { headers: ghHeaders() });
-      if (res.ok) {
-        const meta = await res.json();
-        sha = meta.sha;
-        existingData = JSON.parse(atob(meta.content.replace(/\n/g,'')));
-      }
+      if (res.ok) { const meta = await res.json(); sha = meta.sha; existingData = JSON.parse(atob(meta.content.replace(/\n/g,''))); }
     } catch(e) {}
-
-    // Parse work orders from text
     const woLines = document.getElementById('workOrders').value.split('\n').filter(l => l.trim());
-    const workOrders = woLines.map(l => {
-      const m = l.match(/^([^:]+):\s*(.+)$/);
-      return m ? { num: m[1].trim(), desc: m[2].trim() } : { num: '', desc: l.trim() };
-    });
-
-    // Parse alerts
+    const workOrders = woLines.map(l => { const m = l.match(/^([^:]+):\s*(.+)$/); return m ? {num:m[1].trim(),desc:m[2].trim()} : {num:'',desc:l.trim()}; });
     const alerts = document.getElementById('alerts').value.split('\n').filter(l => l.trim());
-
-    // Merge — preserve days (written by parser), update announcements
     const newData = {
       ...existingData,
-      weekOf:                document.getElementById('weekOf').value.trim() || existingData.weekOf || '—',
-      showTimeSlide:         document.getElementById('showTime').checked,
-      generalAnnouncements:  document.getElementById('generalAnn').value.trim(),
-      workOrders,
-      alerts,
-      lunch: {
-        available: document.getElementById('lunch-on').checked,
-        what:      document.getElementById('lunch-what').value.trim(),
-        location:  document.getElementById('lunch-loc').value.trim(),
-        until:     document.getElementById('lunch-until').value.trim(),
-      },
+      weekOf:               document.getElementById('weekOf').value.trim() || existingData.weekOf || '—',
+      showTimeSlide:        document.getElementById('showTime').checked,
+      generalAnnouncements: document.getElementById('generalAnn').value.trim(),
+      workOrders, alerts,
+      lunch: { available:document.getElementById('lunch-on').checked, what:document.getElementById('lunch-what').value.trim(), location:document.getElementById('lunch-loc').value.trim(), until:document.getElementById('lunch-until').value.trim() },
+      months: monthsData || existingData.months,
     };
-
-    // Push to GitHub
-    const body = {
-      message: `Board update ${new Date().toISOString().slice(0,10)}`,
-      content: btoa(unescape(encodeURIComponent(JSON.stringify(newData, null, 2)))),
-    };
+    const body = { message:`Board update ${new Date().toISOString().slice(0,10)}`, content:btoa(unescape(encodeURIComponent(JSON.stringify(newData,null,2)))) };
     if (sha) body.sha = sha;
-
-    const res = await fetch(ghUrl('contents/cgz-data.json'), {
-      method: 'PUT',
-      headers: ghHeaders(),
-      body: JSON.stringify(body)
-    });
-
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || res.status);
-    }
-
+    const res = await fetch(ghUrl('contents/cgz-data.json'), { method:'PUT', headers:ghHeaders(), body:JSON.stringify(body) });
+    if (!res.ok) { const err = await res.json(); throw new Error(err.message||res.status); }
     lsSet(DATA_KEY, JSON.stringify(newData));
     showToast('✓ Saved — display updates within 5 min', 'ok');
-  } catch(e) {
-    showToast('✗ Save failed: ' + e.message, 'err');
-  }
-
+  } catch(e) { showToast('✗ Save failed: ' + e.message, 'err'); }
   btn.disabled = false; btn.textContent = 'Save to Board';
 }
 
