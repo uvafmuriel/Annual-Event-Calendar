@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1920,initial-scale=1">
+<title>CGZ Display Board</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f1d3a;--navy2:#1a2e56;--orange:#e57200;--ora2:#f4a444;
+  --white:#fff;--lgray:#f0f3f8;--mgray:#c8d0dc;--dktext:#1a2744;--mid:#4a6070;
+  --green:#1a7a40;--red:#c0392b;--purp:#6b2fa0;--blue:#1464a0;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;background:#111;font-family:'Barlow',sans-serif;overflow:hidden}
+
+#stage{
+  position:absolute;
+  width:1920px;height:1080px;
+  transform-origin:top left;
+  background:var(--lgray);
+  overflow:hidden;
+}
+
+/* SLIDES */
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .5s;display:flex;flex-direction:column;background:var(--lgray)}
+.slide.active{opacity:1;pointer-events:auto}
+
+/* TOP BAR */
+.top-bar{height:68px;background:var(--navy2);display:flex;align-items:center;padding:0 48px;justify-content:space-between;border-bottom:3px solid var(--orange);flex-shrink:0}
+.tb-left{display:flex;align-items:center;gap:16px}
+.tb-logo{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:4px;color:var(--ora2)}
+.tb-div{width:1px;height:22px;background:rgba(255,255,255,.2)}
+.tb-title{font-family:'Playfair Display',serif;font-size:22px;color:var(--white)}
+.tb-right{display:flex;align-items:center;gap:20px}
+.tb-clock{font-family:'DM Mono',monospace;font-size:24px;color:var(--white);letter-spacing:2px}
+.tb-date{font-size:13px;color:var(--mgray);text-align:right;line-height:1.5}
+.slide-body{flex:1;display:flex;overflow:hidden;padding:18px 28px;gap:16px}
+
+/* PROGRESS + DOTS */
+#prog{position:absolute;bottom:0;left:0;height:4px;background:var(--orange);width:0;z-index:100}
+#dots{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:100}
+.dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);border:none;cursor:pointer}
+.dot.on{background:var(--orange);transform:scale(1.3)}
+#pause-msg{position:absolute;top:80px;right:30px;background:rgba(0,0,0,.7);color:var(--orange);font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;padding:6px 14px;border-radius:5px;display:none;z-index:100}
+
+/* ── WEEKLY SLIDE ── */
+.wk-col{flex:1;display:flex;flex-direction:column;border-radius:10px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.wk-hdr{padding:14px 0;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:3px;color:var(--white);flex-shrink:0}
+.wk-body{flex:1;background:var(--white);padding:12px;display:flex;flex-direction:column;gap:8px;overflow:hidden}
+.wk-ev{padding:9px 12px;border-radius:6px;background:var(--lgray);border-left:4px solid var(--c,#ccc)}
+.wk-ev-time{font-family:'DM Mono',monospace;font-size:11px;color:var(--mid);margin-bottom:2px}
+.wk-ev-name{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:var(--dktext);line-height:1.2}
+.wk-ev-loc{font-size:12px;color:var(--mid);margin-top:2px}
+.wk-none{font-size:13px;color:rgba(0,0,0,.3);font-style:italic;padding:8px}
+
+/* ── ANNOUNCEMENTS SLIDE ── */
+.wx-card{background:#e3f0fb;border:1px solid #90c4e8;border-radius:10px;padding:18px 24px;display:flex;align-items:center;gap:20px;flex-shrink:0}
+.wx-ico{font-size:56px;line-height:1}
+.wx-info{flex:1}
+.wx-cond{font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--dktext)}
+.wx-det{font-size:14px;color:var(--mid);margin-top:3px}
+.wx-upd{font-size:11px;color:#90b0c8;margin-top:2px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px}
+.wx-temps{display:flex;gap:10px}
+.wx-tb{background:var(--white);border-radius:8px;padding:12px 18px;text-align:center;min-width:95px}
+.wx-tl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;color:var(--mid);text-transform:uppercase;margin-bottom:3px}
+.wx-tv{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:var(--dktext);line-height:1}
+.wx-tu{font-size:16px;color:var(--mid)}
+.ann-body{flex:1;display:flex;flex-direction:column;gap:14px}
+.ann-cols{display:flex;gap:14px;flex:1;overflow:hidden}
+.ann-col{flex:1;display:flex;flex-direction:column;gap:10px;overflow:hidden}
+.ann-card{border-radius:10px;padding:14px 18px;display:flex;flex-direction:column;gap:6px;position:relative;overflow:hidden;flex:1}
+.ann-bar{position:absolute;left:0;top:0;bottom:0;width:4px}
+.ann-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;padding-left:12px}
+.ann-content{padding-left:12px;display:flex;flex-direction:column;gap:5px;flex:1}
+.ann-item{font-size:15px;color:var(--dktext);line-height:1.4}
+.ann-none{font-size:13px;color:rgba(0,0,0,.28);font-style:italic}
+.wo-card{background:#e4f5ec;border:1px solid #90c8a8}.wo-card .ann-bar{background:var(--green)}.wo-card .ann-lbl{color:var(--green)}
+.lunch-card{background:#f2ebf9;border:1px solid #c090e0}.lunch-card .ann-bar{background:var(--purp)}.lunch-card .ann-lbl{color:var(--purp)}
+.alert-card{background:#fdecea;border:1px solid #e8a09a;flex:1}.alert-card .ann-bar{background:var(--red)}.alert-card .ann-lbl{color:var(--red)}
+
+/* ── MONTH SLIDES ── */
+.mon-slide{background:var(--lgray)}
+.mon-left{width:300px;flex-shrink:0;background:var(--navy);border-radius:10px;display:flex;flex-direction:column;padding:28px 24px;position:relative;overflow:hidden}
+.mon-accent{position:absolute;left:0;top:0;bottom:0;width:5px}
+.mon-ghost{font-family:'Playfair Display',serif;font-size:120px;font-weight:900;color:rgba(255,255,255,.05);line-height:1;margin-bottom:-14px}
+.mon-name{font-family:'Barlow Condensed',sans-serif;font-size:34px;font-weight:700;color:var(--white);letter-spacing:3px}
+.mon-tagline{font-size:13px;color:var(--mgray);margin-top:10px;line-height:1.6}
+.mon-badge{margin-top:auto;display:inline-block;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;padding:6px 14px;border-radius:4px;color:var(--white)}
+.mon-count{font-size:13px;color:var(--white);margin-top:6px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px}
+.mon-right{flex:1;display:flex;flex-direction:column;gap:11px;overflow:hidden}
+.mon-hdr{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;color:var(--mid);margin-bottom:2px}
+.mon-ev{background:var(--white);border-radius:8px;padding:14px 18px;display:flex;align-items:flex-start;gap:12px;flex:1;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.mon-ev-bar{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0}
+.mon-ev-body{flex:1;min-width:0}
+.mon-ev-name{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--dktext);line-height:1.1;margin-bottom:4px}
+.mon-ev-detail{font-size:13px;color:var(--mid)}
+.mon-ev-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.mon-ev-cat{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px}
+.mon-ev-badge{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:1.5px;padding:3px 9px;border-radius:3px;color:var(--white)}
+
+/* ── TIME SLIDE ── */
+.t-main{flex:1;display:flex;flex-direction:column;justify-content:center;gap:16px}
+.t-dayname{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:700;letter-spacing:6px;color:var(--ora2)}
+.t-clock{font-family:'DM Mono',monospace;font-size:160px;font-weight:500;color:var(--white);line-height:1;letter-spacing:-4px}
+.t-datefull{font-size:26px;font-weight:300;color:var(--mgray);letter-spacing:1px}
+#s-time{background:var(--navy)}
+#s-time .slide-body{padding:18px 56px}
+.t-right{width:420px;flex-shrink:0}
+.t-wk-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:4px;color:var(--mid);margin-bottom:10px}
+.t-row{display:flex;margin-bottom:8px;border-radius:7px;overflow:hidden;border:1px solid rgba(255,255,255,.07)}
+.t-day{width:60px;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;color:var(--white);flex-shrink:0}
+.t-evs{flex:1;padding:10px 13px;background:rgba(255,255,255,.04);font-size:13px;color:rgba(255,255,255,.6);line-height:1.4}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="pause-msg">⏸ PAUSED</div>
+
+  <!-- SLIDE 1: WEEKLY -->
+  <div class="slide active" id="s-weekly">
+    <div class="top-bar">
+      <div class="tb-left"><span class="tb-logo">CGZ Maintenance</span><div class="tb-div"></div><span class="tb-title">Weekly Events</span></div>
+      <div class="tb-right"><div style="text-align:right"><div class="tb-clock" id="clk-wk"></div><div class="tb-date" id="dt-wk"></div></div></div>
+    </div>
+    <div class="slide-body" id="wk-cols"></div>
+  </div>
+
+  <!-- SLIDE 2: ANNOUNCEMENTS -->
+  <div class="slide" id="s-ann">
+    <div class="top-bar">
+      <div class="tb-left"><span class="tb-logo">CGZ Maintenance</span><div class="tb-div"></div><span class="tb-title">Announcements</span></div>
+      <div class="tb-right"><div style="text-align:right"><div class="tb-clock" id="clk-a"></div><div class="tb-date" id="dt-a"></div></div></div>
+    </div>
+    <div class="slide-body" style="flex-direction:column;gap:14px" id="ann-body"></div>
+  </div>
+
+  <!-- SLIDE 3: THIS MONTH -->
+  <div class="slide mon-slide" id="s-curmon">
+    <div class="top-bar">
+      <div class="tb-left"><span class="tb-logo">CGZ Maintenance</span><div class="tb-div"></div><span class="tb-title" id="curmon-title">This Month</span></div>
+      <div class="tb-right"><div style="text-align:right"><div class="tb-clock" id="clk-cm"></div><div class="tb-date" id="dt-cm"></div></div></div>
+    </div>
+    <div class="slide-body">
+      <div class="mon-left" id="curmon-left"></div>
+      <div class="mon-right" id="curmon-right"></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: NEXT MONTH -->
+  <div class="slide mon-slide" id="s-nxtmon">
+    <div class="top-bar">
+      <div class="tb-left"><span class="tb-logo">CGZ Maintenance</span><div class="tb-div"></div><span class="tb-title" id="nxtmon-title">Up Next</span></div>
+      <div class="tb-right"><div style="text-align:right"><div class="tb-clock" id="clk-nm"></div><div class="tb-date" id="dt-nm"></div></div></div>
+    </div>
+    <div class="slide-body">
+      <div class="mon-left" id="nxtmon-left"></div>
+      <div class="mon-right" id="nxtmon-right"></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: TIME (Thu/Fri only) -->
+  <div class="slide" id="s-time">
+    <div class="top-bar">
+      <div class="tb-left"><span class="tb-logo">CGZ Maintenance</span><div class="tb-div"></div><span class="tb-title" id="t-tb-day">Thursday</span></div>
+      <div class="tb-right"></div>
+    </div>
+    <div class="slide-body">
+      <div class="t-main">
+        <div class="t-dayname" id="t-dayname">Thursday</div>
+        <div class="t-clock" id="t-clock">00:00 AM</div>
+        <div class="t-datefull" id="t-datefull">—</div>
+      </div>
+      <div class="t-right">
+        <div class="t-wk-lbl">Week at a Glance</div>
+        <div id="t-rows"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="prog"></div>
+  <div id="dots"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// CONFIG
+// ══════════════════════════════════════════
+const GH_OWNER = 'uvafmuriel';
+const GH_REPO  = 'Annual-Event-Calendar';
+const DURATION = 9000;
+const DAY_COLORS = ['#2980b9','#1a7a40','#6b2fa0','#c25e00','#c0392b'];
+
+const CAT_COLORS = {grad:'#c0392b',lotl:'#1464a0',fall:'#1a7a40',spring:'#6b2fa0',special:'#c25e00',vigil:'#4a6070',alumni:'#9a6c00'};
+const CAT_LABELS = {grad:'Graduation',lotl:'Lighting of Lawn',fall:'Fall Welcome',spring:'Spring Events',special:'Special Event',vigil:'Memorial/Other',alumni:'Alumni'};
+
+// ══════════════════════════════════════════
+// MONTH DATA
+// ══════════════════════════════════════════
+const MONTHS = [
+  {name:'January',  num:1, accent:'#1464a0', tagline:'Post-holiday prep & Lawn breakdown',
+   events:[{name:'Lighting of the Lawn',cat:'lotl',detail:'Ongoing support & teardown'},{name:'Declaration Under the Dome',cat:'special',detail:'Dome Room — setup, A/V staging'}]},
+  {name:'February', num:2, accent:'#c25e00', tagline:'Dome events & speaker visits',
+   events:[{name:'Declaration Under the Dome',cat:'special',detail:'Dome Room — chairs, stage, A/V',badge:'DOME'},{name:'Speaker Visit',cat:'special',detail:'Rotunda — stage & seating setup'}]},
+  {name:'March',    num:3, accent:'#6b2fa0', tagline:'Amphitheater season opens',
+   events:[{name:'Battle of the Bands',cat:'spring',detail:'Amphitheater — power, tables, water'},{name:'Spring Kickoff Show',cat:'spring',detail:'Amphitheater — tables, power, waste'},{name:'TSA Night Market',cat:'spring',detail:'Amphitheater — waste, water stations'},{name:'UPC Movie Screening',cat:'spring',detail:'Amphitheater / OCH — tables, power'},{name:'Black Alumni Weekend',cat:'alumni',detail:'Amphitheater — stage, power, custodial',badge:'PLAN'},{name:'Grad Planning Begins',cat:'grad',detail:'Early work orders for May Finals',badge:'PLAN'}]},
+  {name:'April',    num:4, accent:'#c0392b', tagline:'Peak spring — Finals lead-up & major events',
+   events:[{name:'Graduation / Final Exercises',cat:'grad',detail:'Amphitheater, Rotunda, Pavilions',badge:'MAJOR'},{name:'Black Alumni Weekend',cat:'alumni',detail:'Amphitheater — stage, chairs, power',badge:'MAJOR'},{name:'First Year Formal',cat:'spring',detail:'Amphitheater — power, stage, waste'},{name:'Hoos Grateful',cat:'spring',detail:'Amphitheater — water monster, chairs'},{name:'Gen Z Debate Event',cat:'special',detail:'Rotunda — A/V, power, stanchions'},{name:'TSA Night Market',cat:'spring',detail:'Amphitheater — waste, water'}]},
+  {name:'May',      num:5, accent:'#c0392b', tagline:'Finals Weekend — peak operational demand',
+   events:[{name:'Graduation / Final Exercises',cat:'grad',detail:'Tents, linens, power, A/V — 100+ hrs/wk',badge:'PEAK'},{name:'Table & Chair Requests',cat:'vigil',detail:'Multiple venues — Gibson, Wilson, Nau'}]},
+  {name:'June',     num:6, accent:'#9a6c00', tagline:'Alumni Reunions Weekend & summer support',
+   events:[{name:'Alumni Reunions Weekend',cat:'alumni',detail:'All classes — Grounds-wide events, parking, custodial',badge:'MAJOR'},{name:'Ad-hoc Event Support',cat:'vigil',detail:'Tables / chairs — Dome, Gardens, misc venues'}]},
+  {name:'July',     num:7, accent:'#1a7a40', tagline:'Fall semester prep begins',
+   events:[{name:'Fall Activities Fair (Prep)',cat:'fall',detail:'Amphitheater — water monsters, power staging',badge:'PREP'},{name:'Arts Welcome Picnic (Prep)',cat:'fall',detail:'Arts Grounds — waste, tables ordering',badge:'PREP'},{name:'Rotunda Sing (Prep)',cat:'fall',detail:'Lawn — stage, power, water monsters',badge:'PREP'}]},
+  {name:'August',   num:8, accent:'#1a7a40', tagline:'Move-In, Opening Convocation & Fall Welcome',
+   events:[{name:'First-Year Move-In',cat:'fall',detail:'Aug 21–22 · All first-year residence halls',badge:'MAJOR'},{name:'Opening Convocation',cat:'fall',detail:'Aug 24 · The Lawn — honor pledge & welcome',badge:'MAJOR'},{name:'First Year Food Fest',cat:'fall',detail:'Amphitheater — water, power, waste · 2,000+',badge:'2000+'},{name:'Fall Activities Fair',cat:'fall',detail:'Amphitheater + Peabody — 3 water monsters'},{name:'Rotunda Sing',cat:'fall',detail:'Lawn — stage, 3 water monsters, power, tables'}]},
+  {name:'September',num:9, accent:'#1a7a40', tagline:'Community events & special visits',
+   events:[{name:'Arts Welcome Picnic',cat:'fall',detail:'Arts Grounds — waste, tables'},{name:'Justice Jackson Visit',cat:'special',detail:'OCH — power, custodial, stanchions',badge:'VIP'},{name:'Nov. 13 Candlelight Vigil',cat:'vigil',detail:'OCH — power, waste, custodial',badge:'MEMORIAL'}]},
+  {name:'October',  num:10,accent:'#1464a0', tagline:'Homecomings, races & LOTL prep',
+   events:[{name:'4Y5K Community Care Race',cat:'fall',detail:'Amphitheater — water monster, power'},{name:'UPC Movie Screening',cat:'spring',detail:'Old Cabell Hall — tables & setup'},{name:'Lighting of the Lawn (Prep)',cat:'lotl',detail:'Lawn — ordering, lighting install begins',badge:'PREP'},{name:'CHS Orchestra Event',cat:'special',detail:'Dome Room — open floor setup'}]},
+  {name:'November', num:11,accent:'#1464a0', tagline:'Lighting of the Lawn season',
+   events:[{name:'Lighting of the Lawn',cat:'lotl',detail:'Lawn — electrical, roofing, custodial',badge:'MAJOR'},{name:'4Y5K Community Care Race',cat:'fall',detail:'Amphitheater — water monster support'},{name:'Exam Prep',cat:'vigil',detail:'Dome Room reconfigurations for exam period'}]},
+  {name:'December', num:12,accent:'#1464a0', tagline:'LOTL peak & exam season',
+   events:[{name:'Lighting of the Lawn',cat:'lotl',detail:'Continued support & final teardown',badge:'ONGOING'},{name:'Exam Period Setup',cat:'vigil',detail:'Dome Room — round tables for exams'},{name:'German Market',cat:'spring',detail:'Amphitheater — tables, chairs, power'}]},
+];
+
+// ══════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════
+let DATA = null;
+let slides = [];
+let cur = 0;
+let paused = false;
+let timer = null;
+let liveWx = null;
+
+// ══════════════════════════════════════════
+// STORAGE
+// ══════════════════════════════════════════
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+
+// ══════════════════════════════════════════
+// GITHUB FETCH
+// ══════════════════════════════════════════
+async function fetchData() {
+  try {
+    const cfgRaw = lsGet('cgz_github_cfg');
+    const cfg = cfgRaw ? JSON.parse(cfgRaw) : null;
+    const url = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/cgz-data.json`;
+    const headers = {'Accept':'application/vnd.github.v3+json'};
+    if (cfg && cfg.token) headers['Authorization'] = `token ${cfg.token}`;
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(), 5000);
+    const res = await fetch(url, {headers, signal: ctrl.signal});
+    if (!res.ok) return null;
+    const meta = await res.json();
+    const parsed = JSON.parse(atob(meta.content.replace(/\n/g,'')));
+    lsSet('cgz_cache', JSON.stringify(parsed));
+    return parsed;
+  } catch(e) { return null; }
+}
+
+function loadCache() {
+  try { return JSON.parse(lsGet('cgz_cache')); } catch(e) { return null; }
+}
+
+function defaults(d) {
+  return Object.assign({
+    weekOf:'—', showTimeSlide:false,
+    days:[
+      {name:'Monday',   abbr:'MON',color:'#2980b9',events:[]},
+      {name:'Tuesday',  abbr:'TUE',color:'#1a7a40',events:[]},
+      {name:'Wednesday',abbr:'WED',color:'#6b2fa0',events:[]},
+      {name:'Thursday', abbr:'THU',color:'#c25e00',events:[]},
+      {name:'Friday',   abbr:'FRI',color:'#c0392b',events:[]},
+    ],
+    workOrders:[], lunch:{available:false,what:'',location:'',until:''}, alerts:[]
+  }, d || {});
+}
+
+// ══════════════════════════════════════════
+// WEATHER
+// ══════════════════════════════════════════
+const WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude=38.0336&longitude=-78.5080&current=temperature_2m,wind_speed_10m,wind_direction_10m,precipitation_probability,weather_code&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&forecast_days=1&timezone=America%2FNew_York';
+const WMO = {0:{l:'Clear Sky',i:'☀️'},1:{l:'Mainly Clear',i:'🌤'},2:{l:'Partly Cloudy',i:'⛅'},3:{l:'Overcast',i:'☁️'},45:{l:'Foggy',i:'🌫'},48:{l:'Icy Fog',i:'🌫'},51:{l:'Light Drizzle',i:'🌦'},53:{l:'Drizzle',i:'🌧'},55:{l:'Heavy Drizzle',i:'🌧'},61:{l:'Light Rain',i:'🌦'},63:{l:'Rain',i:'🌧'},65:{l:'Heavy Rain',i:'🌧'},71:{l:'Light Snow',i:'🌨'},73:{l:'Snow',i:'❄️'},75:{l:'Heavy Snow',i:'❄️'},80:{l:'Showers',i:'🌦'},81:{l:'Showers',i:'🌧'},82:{l:'Heavy Showers',i:'⛈'},95:{l:'Thunderstorm',i:'⛈'},96:{l:'Thunderstorm',i:'⛈'},99:{l:'Thunderstorm',i:'⛈'}};
+function wdir(d){return ['N','NE','E','SE','S','SW','W','NW'][Math.round(d/45)%8];}
+
+async function fetchWeather() {
+  try {
+    const r = await fetch(WX_URL);
+    if (!r.ok) return;
+    const d = await r.json();
+    const c = d.current, dy = d.daily;
+    const wmo = WMO[c.weather_code] || {l:'—',i:'🌡'};
+    liveWx = {
+      icon:wmo.i, condition:wmo.l,
+      temp:Math.round(c.temperature_2m),
+      high:Math.round(dy.temperature_2m_max[0]),
+      low:Math.round(dy.temperature_2m_min[0]),
+      wind:`${Math.round(c.wind_speed_10m)} mph ${wdir(c.wind_direction_10m)}`,
+      precip:`${c.precipitation_probability}%`,
+      updated: new Date()
+    };
+    renderWeather();
+  } catch(e) {}
+}
+
+function renderWeather() {
+  const el = document.getElementById('wx-live');
+  if (!el || !liveWx) return;
+  const wx = liveWx;
+  const upd = wx.updated ? `Live · Updated ${wx.updated.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}` : 'Charlottesville, VA';
+  el.innerHTML = `
+    <div class="wx-ico">${wx.icon}</div>
+    <div class="wx-info">
+      <div class="wx-cond">${wx.condition}</div>
+      <div class="wx-det">Charlottesville, VA &nbsp;·&nbsp; Wind: ${wx.wind} &nbsp;·&nbsp; Precip: ${wx.precip}</div>
+      <div class="wx-upd">${upd}</div>
+    </div>
+    <div class="wx-temps">
+      <div class="wx-tb"><div class="wx-tl">Now</div><div class="wx-tv">${wx.temp}<span class="wx-tu">°F</span></div></div>
+      <div class="wx-tb"><div class="wx-tl">High</div><div class="wx-tv">${wx.high}<span class="wx-tu">°F</span></div></div>
+      <div class="wx-tb"><div class="wx-tl">Low</div><div class="wx-tv">${wx.low}<span class="wx-tu">°F</span></div></div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════
+// BUILD SLIDES
+// ══════════════════════════════════════════
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function buildWeekly() {
+  const cols = document.getElementById('wk-cols');
+  cols.innerHTML = '';
+  DATA.days.forEach((day, di) => {
+    const c = day.color || DAY_COLORS[di];
+    const evs = day.events || [];
+    const evHTML = evs.length
+      ? evs.map(e=>`<div class="wk-ev" style="--c:${c}">
+          ${e.time?`<div class="wk-ev-time">${esc(e.time)}</div>`:''}
+          <div class="wk-ev-name">${esc(e.name||'')}</div>
+          ${e.detail?`<div class="wk-ev-loc">${esc(e.detail)}</div>`:''}
+        </div>`).join('')
+      : '<div class="wk-none">No events scheduled</div>';
+    const col = document.createElement('div');
+    col.className = 'wk-col';
+    col.innerHTML = `<div class="wk-hdr" style="background:${c}">${day.name.toUpperCase()}</div><div class="wk-body">${evHTML}</div>`;
+    cols.appendChild(col);
+  });
+}
+
+function buildAnnouncements() {
+  const wos = DATA.workOrders || [];
+  const lunch = DATA.lunch || {};
+  const alerts = DATA.alerts || [];
+  const woHTML = wos.length ? wos.map(w=>`<div class="ann-item"><strong>#${esc(w.num||'—')}</strong> — ${esc(w.desc||'')}</div>`).join('') : '<div class="ann-none">No active work orders</div>';
+  const lunchHTML = lunch.available
+    ? `<div class="ann-item"><strong>What:</strong> ${esc(lunch.what||'—')}</div><div class="ann-item"><strong>Where:</strong> ${esc(lunch.location||'—')}</div><div class="ann-item"><strong>Until:</strong> ${esc(lunch.until||'—')}</div>`
+    : '<div class="ann-none">No leftover lunch today</div>';
+  const alertHTML = alerts.length ? alerts.map(a=>`<div class="ann-item">⚠ ${esc(a)}</div>`).join('') : '<div class="ann-none">No active construction alerts</div>';
+  document.getElementById('ann-body').innerHTML = `
+    <div class="wx-card"><div id="wx-live" style="display:contents"><div class="wx-ico">🌡</div><div class="wx-info"><div class="wx-cond">Loading weather…</div></div></div></div>
+    <div class="ann-cols">
+      <div class="ann-col">
+        <div class="ann-card wo-card"><div class="ann-bar"></div><div class="ann-lbl">🔧 Project Work Orders</div><div class="ann-content">${woHTML}</div></div>
+        <div class="ann-card lunch-card"><div class="ann-bar"></div><div class="ann-lbl">🍕 Leftover Lunch</div><div class="ann-content">${lunchHTML}</div></div>
+      </div>
+      <div class="ann-col">
+        <div class="ann-card alert-card"><div class="ann-bar"></div><div class="ann-lbl">🚧 Construction Alerts</div><div class="ann-content">${alertHTML}</div></div>
+      </div>
+    </div>`;
+  renderWeather();
+}
+
+function buildMonthSlide(leftId, rightId, titleId, mon, label, badgeColor) {
+  document.getElementById(titleId).textContent = `${label} — ${mon.name}`;
+  document.getElementById(leftId).innerHTML = `
+    <div class="mon-accent" style="background:${mon.accent}"></div>
+    <div class="mon-ghost">${String(mon.num).padStart(2,'0')}</div>
+    <div class="mon-name">${mon.name.toUpperCase()}</div>
+    <div class="mon-tagline">${mon.tagline}</div>
+    <div style="margin-top:auto">
+      <div class="mon-badge" style="background:${badgeColor}">${label.toUpperCase()}</div>
+      <div class="mon-count">${mon.events.length} recurring event${mon.events.length!==1?'s':''}</div>
+    </div>`;
+  const cards = mon.events.slice(0,7).map(ev => {
+    const cc = CAT_COLORS[ev.cat]||'#888';
+    const cl = CAT_LABELS[ev.cat]||ev.cat;
+    const badge = ev.badge ? `<div class="mon-ev-badge" style="background:${cc}">${ev.badge}</div>` : '';
+    return `<div class="mon-ev">
+      <div class="mon-ev-bar" style="background:${cc}"></div>
+      <div class="mon-ev-body"><div class="mon-ev-name">${esc(ev.name)}</div><div class="mon-ev-detail">${esc(ev.detail||'')}</div></div>
+      <div class="mon-ev-right"><div class="mon-ev-cat" style="color:${cc}">${cl.toUpperCase()}</div>${badge}</div>
+    </div>`;
+  }).join('');
+  document.getElementById(rightId).innerHTML = `<div class="mon-hdr">RECURRING EVENTS</div>${cards}`;
+}
+
+function buildMonths() {
+  const ci = new Date().getMonth();
+  const ni = (ci+1)%12;
+  buildMonthSlide('curmon-left','curmon-right','curmon-title', MONTHS[ci], 'This Month', '#e57200');
+  buildMonthSlide('nxtmon-left','nxtmon-right','nxtmon-title', MONTHS[ni], 'Up Next',    '#1a2e56');
+}
+
+function buildTimeRows() {
+  const c = document.getElementById('t-rows'); c.innerHTML='';
+  DATA.days.forEach((day,di) => {
+    const col = day.color||DAY_COLORS[di];
+    const evs = day.events||[];
+    const txt = evs.length ? evs.slice(0,2).map(e=>esc(e.name||'')).join(', ') : '<span style="color:rgba(255,255,255,.2);font-style:italic">No events</span>';
+    const row = document.createElement('div'); row.className='t-row';
+    row.innerHTML=`<div class="t-day" style="background:${col}">${day.abbr||day.name.slice(0,3).toUpperCase()}</div><div class="t-evs">${txt}</div>`;
+    c.appendChild(row);
+  });
+}
+
+function buildAll(d) {
+  DATA = defaults(d);
+  buildWeekly();
+  buildAnnouncements();
+  buildMonths();
+  buildTimeRows();
+}
+
+// ══════════════════════════════════════════
+// CLOCK
+// ══════════════════════════════════════════
+function tick() {
+  const now = new Date();
+  const t = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const d = now.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+  ['clk-wk','clk-a','clk-cm','clk-nm'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=t;});
+  ['dt-wk','dt-a','dt-cm','dt-nm'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=d;});
+  document.getElementById('t-clock').textContent = now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+  document.getElementById('t-datefull').textContent = now.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  const dn = now.toLocaleDateString('en-US',{weekday:'long'});
+  document.getElementById('t-dayname').textContent = dn;
+  document.getElementById('t-tb-day').textContent = dn;
+}
+
+// ══════════════════════════════════════════
+// SLIDESHOW
+// ══════════════════════════════════════════
+function getSlideList() {
+  const day = new Date().getDay();
+  const showTime = DATA && (DATA.showTimeSlide || day===4 || day===5);
+  return Array.from(document.querySelectorAll('#stage .slide'))
+    .filter(s => showTime || s.id !== 's-time');
+}
+
+function showSlide(idx) {
+  slides.forEach(s => s.classList.remove('active'));
+  cur = ((idx % slides.length) + slides.length) % slides.length;
+  slides[cur].classList.add('active');
+  // dots
+  const dots = document.querySelectorAll('.dot');
+  dots.forEach((d,i) => d.classList.toggle('on', i===cur));
+  // progress bar
+  const prog = document.getElementById('prog');
+  prog.style.transition = 'none';
+  prog.style.width = '0%';
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (!paused) {
+      prog.style.transition = `width ${DURATION}ms linear`;
+      prog.style.width = '100%';
+    }
+  }));
+}
+
+function buildDots() {
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = '';
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.className = 'dot' + (i === cur ? ' on' : '');
+    b.onclick = (e) => { e.stopPropagation(); showSlide(i); if (!paused) startTimer(); };
+    dotsEl.appendChild(b);
+  });
+}
+
+function next() { showSlide(cur + 1); }
+
+function startTimer() {
+  clearInterval(timer);
+  timer = setInterval(() => { if (!paused) next(); }, DURATION);
+}
+
+function initSlideshow() {
+  slides = getSlideList();
+  cur = 0;
+  slides.forEach((s, i) => s.classList.toggle('active', i === 0));
+  buildDots();
+  showSlide(0);
+  startTimer();
+}
+
+// click anywhere to advance
+document.addEventListener('click', (e) => {
+  if (e.target.classList.contains('dot')) return;
+  if (paused) return;
+  next();
+  startTimer();
+});
+
+// keyboard
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); paused = !paused; document.getElementById('pause-msg').style.display = paused ? 'block' : 'none'; if (!paused) { startTimer(); showSlide(cur); } else { clearInterval(timer); } }
+  if (e.code === 'ArrowRight') { next(); if (!paused) startTimer(); }
+  if (e.code === 'ArrowLeft')  { showSlide(cur - 1); if (!paused) startTimer(); }
+});
+
+// ══════════════════════════════════════════
+// SCALE TO FIT TV
+// ══════════════════════════════════════════
+function scale() {
+  const s = document.getElementById('stage');
+  const sc = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  const ox = (window.innerWidth  - 1920 * sc) / 2;
+  const oy = (window.innerHeight - 1080 * sc) / 2;
+  s.style.transform = `translate(${ox}px,${oy}px) scale(${sc})`;
+}
+scale();
+window.addEventListener('resize', scale);
+
+// ══════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════
+(async () => {
+  // Show immediately with defaults or cache
+  buildAll(loadCache() || {});
+  initSlideshow();
+  setInterval(tick, 1000);
+  tick();
+
+  // Background: fetch GitHub data
+  setTimeout(async () => {
+    try {
+      const fresh = await fetchData();
+      if (fresh) { buildAll(fresh); buildDots(); }
+    } catch(e) {}
+    // Background: fetch weather
+    try { await fetchWeather(); } catch(e) {}
+  }, 200);
+
+  // Poll every 5 min
+  setInterval(async () => {
+    try { const d = await fetchData(); if (d) { buildAll(d); buildDots(); } } catch(e) {}
+  }, 5 * 60 * 1000);
+
+  // Weather every 30 min
+  setInterval(() => { try { fetchWeather(); } catch(e) {} }, 30 * 60 * 1000);
+})();
+</script>
+</body>
+</html>
