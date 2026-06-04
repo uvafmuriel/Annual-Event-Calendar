@@ -57,17 +57,29 @@ html,body{width:100%;height:100%;background:#111;font-family:'Barlow',sans-serif
 /* ── ANNOUNCEMENTS SLIDE ── */
 .ann-left{width:580px;flex-shrink:0;display:flex;flex-direction:column;gap:10px}
 .ann-right{flex:1;display:flex;flex-direction:column;gap:10px}
-.wx-card{background:#e3f0fb;border:1px solid #90c4e8;border-radius:10px;padding:14px 18px;display:flex;align-items:center;gap:14px;flex-shrink:0}
-.wx-ico{font-size:38px;line-height:1;flex-shrink:0}
+.ann-body-wrap{flex:1;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.ann-cols{display:flex;gap:12px;flex:1;overflow:hidden}
+.wx-card{background:#e3f0fb;border:1px solid #90c4e8;border-radius:10px;padding:18px 28px;display:flex;align-items:stretch;gap:28px;flex-shrink:0}
+.wx-main{display:flex;align-items:center;gap:18px;flex:1}
+.wx-ico{font-size:64px;line-height:1;flex-shrink:0}
 .wx-info{flex:1;min-width:0}
-.wx-cond{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--dktext)}
-.wx-det{font-size:14px;color:var(--mid);margin-top:2px}
-.wx-upd{font-size:12px;color:#90b0c8;margin-top:1px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px}
-.wx-temps{display:flex;gap:8px;flex-shrink:0}
-.wx-tb{background:var(--white);border-radius:6px;padding:8px 12px;text-align:center;min-width:72px}
-.wx-tl{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--mid);text-transform:uppercase;margin-bottom:2px}
-.wx-tv{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;color:var(--dktext);line-height:1}
-.wx-tu{font-size:15px;color:var(--mid)}
+.wx-cond{font-family:'Playfair Display',serif;font-size:34px;font-weight:700;color:var(--dktext)}
+.wx-det{font-size:16px;color:var(--mid);margin-top:4px}
+.wx-upd{font-size:12px;color:#90b0c8;margin-top:3px;font-family:'Barlow Condensed',sans-serif;letter-spacing:1px}
+.wx-temps{display:flex;gap:10px;align-items:center;flex-shrink:0}
+.wx-tb{background:var(--white);border-radius:8px;padding:10px 18px;text-align:center;min-width:90px}
+.wx-tl{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--mid);text-transform:uppercase;margin-bottom:3px}
+.wx-tv{font-family:'Playfair Display',serif;font-size:34px;font-weight:900;color:var(--dktext);line-height:1}
+.wx-tu{font-size:16px;color:var(--mid)}
+.wx-divider{width:1px;background:rgba(20,100,160,.15);flex-shrink:0;align-self:stretch;margin:4px 0}
+.wx-tomorrow{display:flex;flex-direction:column;justify-content:center;gap:6px;flex-shrink:0;min-width:200px}
+.wx-tmr-lbl{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:3px;color:#5a90b8;text-transform:uppercase}
+.wx-tmr-row{display:flex;align-items:center;gap:10px}
+.wx-tmr-ico{font-size:32px;line-height:1}
+.wx-tmr-info{display:flex;flex-direction:column;gap:2px}
+.wx-tmr-cond{font-size:16px;font-weight:600;color:var(--dktext)}
+.wx-tmr-temps{font-family:'DM Mono',monospace;font-size:14px;color:var(--mid)}
+.wx-tmr-precip{font-size:13px;color:var(--mid)}
 .ann-card{border-radius:10px;padding:10px 14px;display:flex;flex-direction:column;gap:4px;position:relative;overflow:hidden;flex:1}
 .ann-bar{position:absolute;left:0;top:0;bottom:0;width:4px}
 .ann-lbl{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding-left:11px}
@@ -136,7 +148,7 @@ html,body{width:100%;height:100%;background:#111;font-family:'Barlow',sans-serif
       <div class="tb-left"><span class="tb-logo">CGZ Maintenance</span><div class="tb-div"></div><span class="tb-title">Announcements</span></div>
       <div class="tb-right"><div style="text-align:right"><div class="tb-clock" id="clk-a"></div><div class="tb-date" id="dt-a"></div></div></div>
     </div>
-    <div class="slide-body" style="gap:16px" id="ann-body"></div>
+    <div class="slide-body" style="flex-direction:column;gap:12px" id="ann-body"></div>
   </div>
 
   <!-- SLIDE 3: THIS MONTH -->
@@ -286,7 +298,7 @@ function defaults(d) {
 // ══════════════════════════════════════════
 // WEATHER
 // ══════════════════════════════════════════
-const WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude=38.0336&longitude=-78.5080&current=temperature_2m,wind_speed_10m,wind_direction_10m,precipitation_probability,weather_code&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&wind_speed_unit=mph&forecast_days=1&timezone=America%2FNew_York';
+const WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude=38.0336&longitude=-78.5080&current=temperature_2m,wind_speed_10m,wind_direction_10m,precipitation_probability,weather_code&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_probability_max&temperature_unit=fahrenheit&wind_speed_unit=mph&forecast_days=2&timezone=America%2FNew_York';
 const WMO = {0:{l:'Clear Sky',i:'☀️'},1:{l:'Mainly Clear',i:'🌤'},2:{l:'Partly Cloudy',i:'⛅'},3:{l:'Overcast',i:'☁️'},45:{l:'Foggy',i:'🌫'},48:{l:'Icy Fog',i:'🌫'},51:{l:'Light Drizzle',i:'🌦'},53:{l:'Drizzle',i:'🌧'},55:{l:'Heavy Drizzle',i:'🌧'},61:{l:'Light Rain',i:'🌦'},63:{l:'Rain',i:'🌧'},65:{l:'Heavy Rain',i:'🌧'},71:{l:'Light Snow',i:'🌨'},73:{l:'Snow',i:'❄️'},75:{l:'Heavy Snow',i:'❄️'},80:{l:'Showers',i:'🌦'},81:{l:'Showers',i:'🌧'},82:{l:'Heavy Showers',i:'⛈'},95:{l:'Thunderstorm',i:'⛈'},96:{l:'Thunderstorm',i:'⛈'},99:{l:'Thunderstorm',i:'⛈'}};
 function wdir(d){return ['N','NE','E','SE','S','SW','W','NW'][Math.round(d/45)%8];}
 
@@ -304,6 +316,13 @@ async function fetchWeather() {
       low:Math.round(dy.temperature_2m_min[0]),
       wind:`${Math.round(c.wind_speed_10m)} mph ${wdir(c.wind_direction_10m)}`,
       precip:`${c.precipitation_probability}%`,
+      tomorrow: {
+        icon: (WMO[dy.weather_code[1]] || {i:'🌡'}).i,
+        condition: (WMO[dy.weather_code[1]] || {l:'—'}).l,
+        high: Math.round(dy.temperature_2m_max[1]),
+        low:  Math.round(dy.temperature_2m_min[1]),
+        precip: `${dy.precipitation_probability_max[1]}%`,
+      },
       updated: new Date()
     };
     renderWeather();
@@ -315,18 +334,34 @@ function renderWeather() {
   if (!el || !liveWx) return;
   const wx = liveWx;
   const upd = wx.updated ? `Live · Updated ${wx.updated.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}` : 'Charlottesville, VA';
+  const tmr = wx.tomorrow || {};
   el.innerHTML = `
-    <div class="wx-ico">${wx.icon}</div>
-    <div class="wx-info">
-      <div class="wx-cond">${wx.condition}</div>
-      <div class="wx-det">Charlottesville, VA &nbsp;·&nbsp; Wind: ${wx.wind} &nbsp;·&nbsp; Precip: ${wx.precip}</div>
-      <div class="wx-upd">${upd}</div>
+    <div class="wx-main">
+      <div class="wx-ico">${wx.icon}</div>
+      <div class="wx-info">
+        <div class="wx-cond">${wx.condition}</div>
+        <div class="wx-det">Charlottesville, VA &nbsp;·&nbsp; Wind: ${wx.wind} &nbsp;·&nbsp; Precip: ${wx.precip}</div>
+        <div class="wx-upd">${upd}</div>
+      </div>
+      <div class="wx-temps">
+        <div class="wx-tb"><div class="wx-tl">Now</div><div class="wx-tv">${wx.temp}<span class="wx-tu">°F</span></div></div>
+        <div class="wx-tb"><div class="wx-tl">High</div><div class="wx-tv">${wx.high}<span class="wx-tu">°F</span></div></div>
+        <div class="wx-tb"><div class="wx-tl">Low</div><div class="wx-tv">${wx.low}<span class="wx-tu">°F</span></div></div>
+      </div>
     </div>
-    <div class="wx-temps">
-      <div class="wx-tb"><div class="wx-tl">Now</div><div class="wx-tv">${wx.temp}<span class="wx-tu">°F</span></div></div>
-      <div class="wx-tb"><div class="wx-tl">High</div><div class="wx-tv">${wx.high}<span class="wx-tu">°F</span></div></div>
-      <div class="wx-tb"><div class="wx-tl">Low</div><div class="wx-tv">${wx.low}<span class="wx-tu">°F</span></div></div>
-    </div>`;
+    ${tmr.condition ? `
+    <div class="wx-divider"></div>
+    <div class="wx-tomorrow">
+      <div class="wx-tmr-lbl">Tomorrow</div>
+      <div class="wx-tmr-row">
+        <div class="wx-tmr-ico">${tmr.icon}</div>
+        <div class="wx-tmr-info">
+          <div class="wx-tmr-cond">${tmr.condition}</div>
+          <div class="wx-tmr-temps">${tmr.high}° / ${tmr.low}°F</div>
+          <div class="wx-tmr-precip">Precip: ${tmr.precip}</div>
+        </div>
+      </div>
+    </div>` : ''}`;
 }
 
 // ══════════════════════════════════════════
@@ -365,16 +400,18 @@ function buildAnnouncements() {
     : '<div class="ann-none">No leftover lunch today</div>';
   const alertHTML = alerts.length ? alerts.map(a=>`<div class="ann-item">⚠ ${esc(a)}</div>`).join('') : '<div class="ann-none">No active alerts</div>';
   document.getElementById('ann-body').innerHTML = `
-    <div class="ann-left">
-      <div class="wx-card"><div id="wx-live" style="display:contents"><div class="wx-ico">🌡</div><div class="wx-info"><div class="wx-cond">Loading weather…</div></div></div></div>
-      <div class="ann-card wo-card"><div class="ann-bar"></div><div class="ann-lbl">🔧 Project Work Orders</div><div class="ann-content">${woHTML}</div></div>
-      <div class="ann-card lunch-card"><div class="ann-bar"></div><div class="ann-lbl">🍕 Leftover Lunch</div><div class="ann-content">${lunchHTML}</div></div>
-      <div class="ann-card alert-card"><div class="ann-bar"></div><div class="ann-lbl">🚧 Construction Alerts</div><div class="ann-content">${alertHTML}</div></div>
-    </div>
-    <div class="ann-right">
-      <div class="gen-card">
-        <div class="gen-hdr"><span class="gen-hdr-icon">📢</span><span class="gen-hdr-title">General Announcements</span></div>
-        <div class="gen-body">${esc(genAnn) || '<span style="color:rgba(0,0,0,.25);font-style:italic">No announcements today</span>'}</div>
+    <div class="wx-card" style="width:100%"><div id="wx-live" style="display:contents;width:100%"><div class="wx-ico">🌡</div><div class="wx-info"><div class="wx-cond">Loading weather…</div></div></div></div>
+    <div class="ann-cols">
+      <div class="ann-left">
+        <div class="ann-card wo-card"><div class="ann-bar"></div><div class="ann-lbl">🔧 Project Work Orders</div><div class="ann-content">${woHTML}</div></div>
+        <div class="ann-card lunch-card"><div class="ann-bar"></div><div class="ann-lbl">🍕 Leftover Lunch</div><div class="ann-content">${lunchHTML}</div></div>
+        <div class="ann-card alert-card"><div class="ann-bar"></div><div class="ann-lbl">🚧 Construction Alerts</div><div class="ann-content">${alertHTML}</div></div>
+      </div>
+      <div class="ann-right">
+        <div class="gen-card">
+          <div class="gen-hdr"><span class="gen-hdr-icon">📢</span><span class="gen-hdr-title">General Announcements</span></div>
+          <div class="gen-body">${esc(genAnn) || '<span style="color:rgba(0,0,0,.25);font-style:italic">No announcements today</span>'}</div>
+        </div>
       </div>
     </div>`;
   renderWeather();
