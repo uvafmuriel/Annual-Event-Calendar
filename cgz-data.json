@@ -1,12 +1,7 @@
 {
   "weekOf": "June 1 - June 5, 2026",
   "showTimeSlide": false,
-  "workOrders": [
-    {
-      "num": "",
-      "desc": "Rotunda West Courtyard Project# 3951719-93700"
-    }
-  ],
+  "workOrders": [],
   "alerts": [
     "[6/9, 6/16, 6/23, 6/29] Monroe Hill Parking Lot (C5) Impact. Extremely limited parking ",
     "[Until 8/15]  Installation of a laydown area in the lawn between the Rotunda and University Chapel"
@@ -209,19 +204,19 @@
         {
           "name": "First-Year Move-In",
           "cat": "fall",
-          "detail": "Aug 21-22 · All first-year residence halls",
+          "detail": "Aug 21-22 Â· All first-year residence halls",
           "badge": "MAJOR"
         },
         {
           "name": "Opening Convocation",
           "cat": "fall",
-          "detail": "Aug 24 · The Lawn - honor pledge & welcome",
+          "detail": "Aug 24 Â· The Lawn - honor pledge & welcome",
           "badge": "MAJOR"
         },
         {
           "name": "First Year Food Fest",
           "cat": "fall",
-          "detail": "Amphitheater - water, power, waste · 2,000+",
+          "detail": "Amphitheater - water, power, waste Â· 2,000+",
           "badge": "2000+"
         },
         {
